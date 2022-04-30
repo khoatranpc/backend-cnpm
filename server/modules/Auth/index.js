@@ -1,5 +1,6 @@
-const { accountModel } = require('../../models/index');
+const { accountModel,userModel } = require('../../models/index');
 const encryptPassword = require('../Bcrypt');
+const providerJWT = require('../JWT');
 const checkStringSpace = (str) => {
     return str.indexOf(' ') >= 0;
 }
@@ -9,6 +10,7 @@ const Auth = {
             const { username, password } = req.body;
             if (!username) throw new Error('Username is require!');
             if (!password) throw new Error('Password is require!');
+            // kiem tra ton tai ta`i khoan
             const existedUsername = await accountModel.findOne({ username: username });
             if (!existedUsername) throw new Error('Wrong username or password!');
             //check password
@@ -16,9 +18,17 @@ const Auth = {
 
             if (!comparePassword) throw new Error('Wrong username or password!');
 
+            // lay id user từ collection UserInfor
+            // console.log(existedUsername._id);
+            const token = await providerJWT.signToken(existedUsername._id, existedUsername.role);
+            // console.log(token);
+            // const signToken = await providerJWT.verifyToken(token);
+            // console.log(signToken);
+            // sau khi đăng nhập, server sẽ gửi về id tài khoản + role + id user
             res.status(200).send({
                 status: 200,
-                message: "Login successfull!"
+                message: "Login successfull!",
+                token: token
             });
         } catch (error) {
             res.status(401).send({

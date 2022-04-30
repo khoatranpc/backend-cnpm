@@ -8,7 +8,8 @@ const accountSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 3
-    }, role: {
+    },
+    role: {
         type: String,
         default: "user"
     }, id_user: {
@@ -42,9 +43,33 @@ const userSchema = new mongoose.Schema({
     },
     date: {
         type: Date
+    },
+    id_bank: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "UserBank"
     }
+})
+const bankSchema = new mongoose.Schema({
+    bankName: {
+        type: String,
+        required: true
+    },
+    cardNumber: {
+        type: Number,
+        required: true
+    },
+    currentMoney: {
+        type: Number,
+        required: true
+    },
+    id_user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "UserInfor"
+    }
+
 })
 
 const accountModel = new mongoose.model('Account', accountSchema);
 const userModel = new mongoose.model('UserInfor', userSchema);
-module.exports = { accountModel, userModel };
+const bankModel = new mongoose.model('UserBank', bankSchema);
+module.exports = { accountModel, userModel, bankModel };
