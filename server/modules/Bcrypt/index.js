@@ -7,8 +7,8 @@ const encryptPassword = {
         return hasPassword;
     },
     //so sanh ma hoa
-    comparePassword: async (password) => {
-        const hashedPassword = password;
+    comparePassword: async (password,existedPassword) => {
+        const hashedPassword = existedPassword;
         const matchedPassword = await bcryptjs.compare(password, hashedPassword);
         return matchedPassword;
     }

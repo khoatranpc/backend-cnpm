@@ -11,11 +11,14 @@ const Auth = {
             if (!password) throw new Error('Password is require!');
             const existedUsername = await accountModel.findOne({ username: username });
             if (!existedUsername) throw new Error('Wrong username or password!');
-            if (password != existedUsername.password) throw new Error('Wrong username or password!');
+            //check password
+            const comparePassword = await encryptPassword.comparePassword(password, existedUsername.password);
+
+            if (!comparePassword) throw new Error('Wrong username or password!');
 
             res.status(200).send({
                 status: 200,
-                account: existedUsername
+                message: "Login successfull!"
             });
         } catch (error) {
             res.status(401).send({
@@ -46,7 +49,6 @@ const Auth = {
             const newAccount = await accountModel.create(accountPass);
             res.status(201).send({
                 message: "Sign Up successful!",
-                data: newAccount
             })
         } catch (error) {
             res.status(401).send({
