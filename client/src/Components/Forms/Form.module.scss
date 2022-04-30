@@ -1,0 +1,71 @@
+/* Login form */
+
+#loginForm{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 480px;
+    background-color: #fff;
+    padding: 10px 25px;
+    min-height: 380px;
+    transform: translate(-50%, -50%);
+    border-radius: 8px;
+    box-shadow: 1px 1px 8px rgba(0,0,0,0.5);
+}
+
+#loginForm > h1 {
+    font-size: 38px;
+    padding: 10px 0 20px;
+    margin-top: 8px;
+    letter-spacing: 1px;
+    background: -webkit-linear-gradient(#4158D0 , #C850C0 , #FFCC70);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-bottom: 1px solid #FFCC70;
+}
+
+.formGroup{
+    padding: 10px 0;
+    margin-bottom: 4px;
+}
+
+.formLabel{
+    display: block;
+    color: var(--text-color);
+    font-weight: 500;
+    padding-bottom: 5px;
+    cursor: pointer;
+}
+
+.formControl{
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--text-color);
+    border-radius: 12px;
+    outline: none;
+}
+
+.formMsg.formMsgError{
+    color: red;
+}
+
+.linkRegister{
+    color: #0069d9;
+    transition: all 0.2s linear;
+    &:hover{
+        opacity: 0.8;
+        color: orangered;
+    }
+}
+
+
+.btnLogin{
+    width: 100%;
+    background: linear-gradient(to bottom, #4158D0, #C850C0);
+    border: 1px solid #C850C0;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 16px;
+}
