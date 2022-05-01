@@ -1,12 +1,11 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const providerJWT = {
-    signToken: async (id_user, role_user, id_user) => {
+    signToken: async (id_user, role_user) => {
         //payloay must be object
         const indentityData = {
             id_user: id_user,
             role_user: role_user,
-            id_user: id_user
         }
         const token = await jwt.sign(indentityData, process.env.JWT_SECRET, {
             expiresIn: 10000

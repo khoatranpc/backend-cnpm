@@ -1,6 +1,10 @@
-const { accountModel,userModel } = require('../../models/index');
+const { accountModel, userModel, otpAccountUserModel } = require('../../models/index');
 const encryptPassword = require('../Bcrypt');
 const providerJWT = require('../JWT');
+//mailer
+const mailer = require('../Mail');
+// create OTP
+const otp = require('../OTP');
 const checkStringSpace = (str) => {
     return str.indexOf(' ') >= 0;
 }
@@ -56,14 +60,46 @@ const Auth = {
                 username: username,
                 password: hashedPassword
             }
+            let createOtp = otp.createOTP();
             const newAccount = await accountModel.create(accountPass);
+            //tạo mã OTP cho tài khoản
+            const otpModel = {
+                id_account: newAccount.id,
+                otp: createOtp
+            }
+            const createOTP = await otpAccountUserModel.create(otpModel);
             res.status(201).send({
                 message: "Sign Up successful!",
+                otp: createOTP
             })
         } catch (error) {
             res.status(401).send({
                 error: error.message
             })
+        }
+    },
+    // reset password
+    requireOTP: async (req, res) => {
+        try {
+            const { username, email } = req.body;
+            const existedEmail = await userModel.findOne({ email: email }).populate('id_account');
+            //tìm email người dùng
+            if (!existedEmail) throw new Error('Wrong email or username. Try again!');
+            if (!username || username !== existedEmail.id_account.username)
+                throw new Error('Wrong email or username. Try again!');
+            // tìm mã otp ứng với account
+            const otpAccount = await otpAccountUserModel.findOne({ id_account: existedEmail.id_account._id });
+            // sử dụng mailer để gửi mail
+            await mailer(req, res, otpAccount.otp, email);
+            res.status(200).send({
+                data: existedEmail,
+                otp: otpAccount.otp,
+                message: "We've send code to your email address! Please check your mail!"
+            })
+        } catch (error) {
+            res.status(401).send({
+                error: error.message
+            });
         }
 
     }

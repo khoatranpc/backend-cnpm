@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        required: true,
     },
     phone: {
         type: String
@@ -49,6 +50,16 @@ const userSchema = new mongoose.Schema({
         ref: "UserBank"
     }
 })
+const otpAccountUserSchema = new mongoose.Schema({
+    id_account: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Account"
+    },
+    otp: {
+        type: Number,
+        required: true
+    }
+})
 const bankSchema = new mongoose.Schema({
     bankName: {
         type: String,
@@ -72,4 +83,5 @@ const bankSchema = new mongoose.Schema({
 const accountModel = new mongoose.model('Account', accountSchema);
 const userModel = new mongoose.model('UserInfor', userSchema);
 const bankModel = new mongoose.model('UserBank', bankSchema);
-module.exports = { accountModel, userModel, bankModel };
+const otpAccountUserModel = new mongoose.model('otpAccount', otpAccountUserSchema);
+module.exports = { accountModel, userModel, bankModel, otpAccountUserModel };
