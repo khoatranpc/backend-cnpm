@@ -7,4 +7,7 @@ Router.post('/auth/login', AuthController.SignIn);
 Router.post('/auth/signup', AuthController.SignUp);
 //apis request OTP
 Router.post('/auth/sending-otp', AuthController.requireOTP);
+//apis resetpassword
+Router.put('/auth/reset-password', AuthController.resetPassword);
+
 module.exports = Router;

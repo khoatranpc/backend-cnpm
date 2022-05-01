@@ -91,15 +91,54 @@ const Auth = {
             const otpAccount = await otpAccountUserModel.findOne({ id_account: existedEmail.id_account._id });
             // sử dụng mailer để gửi mail
             await mailer(req, res, otpAccount.otp, email);
+            setTimeout(async () => {
+                await otpAccountUserModel.findOneAndUpdate({ id_account: existedEmail.id_account._id }, { otp: otp.createOTP() })
+            }, 30000)
             res.status(200).send({
-                data: existedEmail,
                 otp: otpAccount.otp,
-                message: "We've send code to your email address! Please check your mail!"
+                id_account: existedEmail.id_account.id,
+                message: "We've send code to your email address. Please check your mail! Time limit for OTP is 3 minutes!",
             })
         } catch (error) {
             res.status(401).send({
                 error: error.message
             });
+        }
+    },
+    // resetpassword
+    resetPassword: async (req, res) => {
+        //clien sẽ gửi lên thêm 1 trường receivedOtp, để chắc chắn rằng đã được nhận Ot
+        // và tiến hành được thay đổi mật khẩu
+        // gửi lên mã otp đã nhập, id_account cần thay đổi; id_account sẽ nhận được khi gửi yêu cầu OTP lên server
+        // gửi lên kèm theo mật khẩu và mật khẩu nhập lại, tiến hành validate và cập nhật
+        try {
+            const { receivedOtp, otp, id_account, password, repassword } = req.body;
+            if (!receivedOtp)
+                throw new Error('You need to verify your account information first!');
+            if (!otp)
+                throw new Error('You type OTP!');
+            if (!id_account)
+                throw new Error('Unknown email!');
+            if (!password || !repassword)
+                throw new Error('Password is require!');
+            if (password !== repassword)
+                throw new Error('Password not match!');
+            const otpCurrentAccount = await otpAccountUserModel.findOne({ id_account: id_account });
+            if (otp != otpCurrentAccount.otp) {
+                throw new Error("Password is not match! Try again!")
+            }
+            const hashedPassword = await encryptPassword.hashPassword(password);
+            const accountUpdate = await accountModel.findByIdAndUpdate(id_account, { password: hashedPassword });
+            if (!accountUpdate)
+                throw new Error('Not found email!');
+            res.status(200).send({
+                message: "Update password successfull!",
+                data: accountUpdate
+            })
+        } catch (error) {
+            res.status(403).send({
+                error: error.message
+            })
         }
 
     }
