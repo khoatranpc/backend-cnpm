@@ -29,6 +29,9 @@ Router.get('/tour/search', TourController.getTourByOption);
 //api get one tour
 Router.get('/tour/:id', TourController.getOneTour);
 
+//api update one tour
+Router.put('/tour/update/:id', middleware.checkLogin, TourController.updateTour);
+
 
 
 

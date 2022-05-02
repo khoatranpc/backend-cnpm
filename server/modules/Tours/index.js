@@ -97,7 +97,29 @@ const Tour = {
             })
         }
 
+    },
+    updateTour: async (req, res) => {
+        try {
+            const { id_user, role_user } = req.user;
+            const {id} = req.params;
 
+            console.log(id_user);
+            //check existedUser
+            const existedUser = await userModel.findOne({ id_account: id_user });
+            console.log(existedUser);
+            if (!existedUser) throw new Error('You must login first!');
+            if (role_user !== "admin") throw new Error('You have no right to update tour!');
+            //update các trường tương ứng với object được gửi từ client : req.body
+            const updateTour = await tourModel.findByIdAndUpdate(id,req.body)
+            res.status(201).send({
+                message: "Created tour successful",
+                data: updateTour
+            })
+        } catch (error) {
+            res.status(403).send({
+                message: error.message
+            })
+        }
     }
 }
 module.exports = Tour;
