@@ -85,9 +85,71 @@ const bankSchema = new mongoose.Schema({
     }
 
 })
+const billSchema = new mongoose.Schema({
+    money: {
+        type: Number,
+        refault: 0,
+        required: 0
+    },
+    methodBill: {
+        type: String,
+        default: "Banking"
+    }, id_user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "UserInfor"
+    }
+})
+
+const tourSchema = new mongoose.Schema({
+    tourName: {
+        type: String,
+        required: true
+    },
+    place: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    image: {
+        type: String,
+        default: "https://media.vneconomy.vn/images/upload/2022/01/20/du-lich.jpg"
+    },
+    maxCustomer: {
+        type: Number,
+        default: 30
+    },
+    currenCustomer: {
+        type: Number,
+        default: 0
+    }
+})
+const detailBookTourSchema = new mongoose.Schema({
+    id_tour: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Tour"
+    },
+    id_user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "UserInfor"
+    },
+    date_current_book: {
+        type: Date,
+        default: Date.now()
+    }
+})
+
+
 
 const accountModel = new mongoose.model('Account', accountSchema);
 const userModel = new mongoose.model('UserInfor', userSchema);
 const bankModel = new mongoose.model('UserBank', bankSchema);
 const otpAccountUserModel = new mongoose.model('otpAccount', otpAccountUserSchema);
-module.exports = { accountModel, userModel, bankModel, otpAccountUserModel };
+const billModel = new mongoose.model("Bill", billSchema);
+const tourModel = new mongoose.model("Tour", tourSchema);
+const detailBookTourModel = new mongoose.model("detailBookTour", detailBookTourSchema);
+module.exports = {
+    accountModel, userModel, bankModel, otpAccountUserModel, billModel, tourModel,detailBookTourModel
+};
