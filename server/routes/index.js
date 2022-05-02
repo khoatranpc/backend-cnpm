@@ -20,11 +20,16 @@ Router.put('/auth/reset-password', AuthController.resetPassword);
 // cần phải quyền đăng nhập trước và có quyền admin mới có thể thêm
 Router.post('/tour/add-tour', middleware.checkLogin, TourController.addTour);
 
-//api get all tour
+//api get all tour, pagination page=?
 Router.get('/tour/get-all-tour', TourController.getAllTour);
+
+//api get tour by option
+Router.get('/tour/search', TourController.getTourByOption);
 
 //api get one tour
 Router.get('/tour/:id', TourController.getOneTour);
+
+
 
 
 

@@ -42,21 +42,74 @@ const Tour = {
     getOneTour: async (req, res) => {
         try {
             const { id } = req.params;
-            let tour
-            try {
-                tour = await tourModel.findById(id);
-            } catch (error) {
-                if (!tour) throw new Error("We can't find the tour!")
-            }
+            let tour = await tourModel.findById(id);
+            if (!tour) throw new Error("We can't find the tour!")
             res.status(200).send({
                 tour: tour
             })
+
+
         } catch (error) {
             res.status(404).send({
                 message: error.message
             })
         }
-    }
+    },
+    getTourByOption: async (req, res) => {
+        try {
+            const { name, place, type } = req.query;
+            const rgSearch = (pattern) => new RegExp(`.*${pattern}`);
+            let foundTour;
+            if (name) {
+                const regexTourName = rgSearch(name);
+                foundTour = await tourModel.find(
+                    {
+                        $or: [
+                            { tourName: { $regex: regexTourName, $options: "i" } }
+                        ]
 
+                    });
+                if (!foundTour) throw new Error("We can't find the tour!");
+                res.status(200).send({
+                    data: foundTour
+                })
+            }
+            if (place) {
+                const regexTourPlace = rgSearch(place);
+                foundTour = await tourModel.find(
+                    {
+                        $or: [
+                            { place: { $regex: regexTourPlace, $options: "i" } }
+                        ]
+
+                    });
+                if (!foundTour) throw new Error("We can't find the tour!");
+                res.status(200).send({
+                    data: foundTour
+                })
+            }
+            if (type) {
+                const regexTourType = rgSearch(type);
+                foundTour = await tourModel.find(
+                    {
+                        $or: [
+                            { type: { $regex: regexTourType, $options: "i" } }
+                        ]
+
+                    });
+                if (!foundTour) throw new Error("We can't find the tour!");
+                res.status(200).send({
+                    data: foundTour
+                })
+            }
+
+        } catch (error) {
+            res.status(404).send({
+                message: error.message
+            })
+        }
+
+
+    }
 }
 module.exports = Tour;

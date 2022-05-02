@@ -73,11 +73,13 @@ const bankSchema = new mongoose.Schema({
     },
     cardNumber: {
         type: Number,
-        required: true
+        required: true,
+        unique: true
     },
     currentMoney: {
         type: Number,
-        required: true
+        required: true,
+        default: 0
     },
     id_user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -140,6 +142,10 @@ const tourSchema = new mongoose.Schema({
     supplierTour: {
         type: String,
         default: "Nhóm 1 Đẹp trai"
+    },
+    id_detail_bookTour: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "detailBookTour"
     }
 })
 const detailBookTourSchema = new mongoose.Schema({
@@ -154,6 +160,24 @@ const detailBookTourSchema = new mongoose.Schema({
     date_current_book: {
         type: Date,
         default: Date.now()
+    },
+    reviews_tour: {
+        type: String,
+        default: "There are no reviews yet, be the first to review it!"
+    },
+    date_begin_tour: {
+        type: Date,
+        required: true,
+        default: Date.now()
+    },
+    date_end_tour: {
+        type: Date,
+        required: true,
+        default: Date.now()
+    },
+    comments: {
+        type: String,
+        default: "There are no comment yet!"
     }
 })
 
