@@ -5,6 +5,7 @@ import AuthLayout from './AuthLayout';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Login from "./Components/Forms/Login";
+import Register from "./Components/Forms/Register";
 import Main from './Main';
 import NotFoundPage from './Components/NotFoundPage';
 import BodyMainPage from './Components/Body';
@@ -18,6 +19,7 @@ root.render(
         {/* layout authen */}
         <Route path='/auth' element={<AuthLayout />}>
           <Route path='login' element={<Login />} />
+          <Route path='register' element={<Register />} />
         </Route>
         {/* Layout main page */}
         {["/", "/home"].map((path, index) => {
