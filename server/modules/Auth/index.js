@@ -9,6 +9,7 @@ const checkStringSpace = (str) => {
     return str.indexOf(' ') >= 0;
 }
 const Auth = {
+    // feat Login
     SignIn: async (req, res) => {
         try {
             const { username, password } = req.body;
@@ -40,17 +41,29 @@ const Auth = {
             });
         }
     },
-    // feat signin
+    //Dang ky
     SignUp: async (req, res) => {
         try {
-            const { username, password, repassword } = req.body;
+            const { name, gender, indentify, address, birth, email, username, password, repassword } = req.body;
             if (!username) throw new Error('Username is require!');
             if (!password) throw new Error('Password is require!');
+
+            if (!name) throw new Error('Name is require!');
+            if (!gender) throw new Error('Gender is require!');
+
+            if (!indentify) throw new Error('Indentify is require!');
+
+            if (!address) throw new Error('Address is require!');
+            if (!birth) throw new Error('Birth is require!');
+
+            if (!email) throw new Error('Email is require!');
+
             if (username && checkStringSpace(username)) throw new Error('Username will be your login account name, it not be allow any space! ');
             if (password.length < 6) throw new Error('Password must be large 6 character!');
 
             if (!repassword) throw new Error('You need to re-type password!');
             if (password != repassword) throw new Error('Password is not match!');
+
             // tim kiem tai khoan trung
             const existedAccount = await accountModel.findOne({ username: username });
             if (existedAccount) throw new Error('Username existed. Try another!');
@@ -68,10 +81,23 @@ const Auth = {
                 otp: createOtp
             }
             const createOTP = await otpAccountUserModel.create(otpModel);
+
+            //tạo tài khoản tương ứng
+            const currentInfor = {
+                name: name,
+                email: email,
+                address: address,
+                indentify: indentify,
+                birth: birth,
+                gender: gender,
+                id_account: newAccount.id
+            }
+            const currentUSer = await userModel.create(currentInfor);
             res.status(201).send({
                 message: "Sign Up successful!",
-                otp: createOTP
+                currentUser: currentUSer
             })
+
         } catch (error) {
             res.status(401).send({
                 error: error.message

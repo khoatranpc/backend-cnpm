@@ -20,30 +20,36 @@ const accountSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        default: "User"
+        default: "User",
+        required: true
     },
     email: {
         type: String,
         required: true,
     },
     phone: {
-        type: String
+        type: String,
+        default: ''
     },
     id_account: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Account"
     },
     gender: {
-        type: String
+        type: String,
+        required: true
     },
-    place: {
-        type: String
+    address: {
+        type: String,
+        required: true
     },
-    CCCD: {
-        type: Number
+    indentify: {
+        type: Number,
+        required: true
     },
-    date: {
-        type: Date
+    birth: {
+        type: Date,
+        required: true
     },
     id_bank: {
         type: mongoose.Schema.Types.ObjectId,
