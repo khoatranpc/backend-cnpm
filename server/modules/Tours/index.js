@@ -67,7 +67,6 @@ const Tour = {
                         $or: [
                             { tourName: { $regex: regexTourName, $options: "i" } }
                         ]
-
                     });
                 if (!foundTour) throw new Error("We can't find the tour!");
                 res.status(200).send({

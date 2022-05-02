@@ -23,4 +23,7 @@
                 +sử dụng params
                 +note: id là id tour: ví dụ:
                         http://localhost:8000/api/tour/626fa01ab4f65979a10422a5
+
+-- API lấy tour sử dụng query với otpion: name,place,type
+                : get http://localhost:8000/api/tour/search?place=sơn
                 
