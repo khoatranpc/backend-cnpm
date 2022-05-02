@@ -124,6 +124,22 @@ const tourSchema = new mongoose.Schema({
     currenCustomer: {
         type: Number,
         default: 0
+    },
+    intro: {
+        type: String,
+        default: "Đây là tour du lịch"
+    },
+    dayUpdate: {
+        type: Date,
+        default: Date.now()
+    },
+    typeTour: {
+        type: String,
+        default: "Du lịch biển"
+    },
+    supplierTour: {
+        type: String,
+        default: "Nhóm 1 Đẹp trai"
     }
 })
 const detailBookTourSchema = new mongoose.Schema({
@@ -151,5 +167,5 @@ const billModel = new mongoose.model("Bill", billSchema);
 const tourModel = new mongoose.model("Tour", tourSchema);
 const detailBookTourModel = new mongoose.model("detailBookTour", detailBookTourSchema);
 module.exports = {
-    accountModel, userModel, bankModel, otpAccountUserModel, billModel, tourModel,detailBookTourModel
+    accountModel, userModel, bankModel, otpAccountUserModel, billModel, tourModel, detailBookTourModel
 };
