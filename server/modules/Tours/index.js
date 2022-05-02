@@ -24,9 +24,12 @@ const Tour = {
     },
     getAllTour: async (req, res) => {
         try {
-            const allTour = await tourModel.find();
+            const { page } = req.query;
+            //pagination
+            const allTour = await tourModel.find().limit(5).skip((page - 1) * 5);
             if (!allTour) throw new Error("Sorry, we have not any tour yet!");
             res.status(200).send({
+                total: allTour.length,
                 data: allTour
             })
         } catch (error) {
@@ -48,7 +51,6 @@ const Tour = {
             res.status(200).send({
                 tour: tour
             })
-
         } catch (error) {
             res.status(404).send({
                 message: error.message
