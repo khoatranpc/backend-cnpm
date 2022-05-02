@@ -62,12 +62,9 @@ const Tour = {
             let foundTour;
             if (name) {
                 const regexTourName = rgSearch(name);
-                foundTour = await tourModel.find(
-                    {
-                        $or: [
-                            { tourName: { $regex: regexTourName, $options: "i" } }
-                        ]
-                    });
+                foundTour = await tourModel.find({
+                    tourName: { $regex: regexTourName, $options: "i" }
+                });
                 if (!foundTour) throw new Error("We can't find the tour!");
                 res.status(200).send({
                     data: foundTour
@@ -75,13 +72,9 @@ const Tour = {
             }
             if (place) {
                 const regexTourPlace = rgSearch(place);
-                foundTour = await tourModel.find(
-                    {
-                        $or: [
-                            { place: { $regex: regexTourPlace, $options: "i" } }
-                        ]
-
-                    });
+                foundTour = await tourModel.find({
+                    place: { $regex: regexTourPlace, $options: "i" }
+                });
                 if (!foundTour) throw new Error("We can't find the tour!");
                 res.status(200).send({
                     data: foundTour
@@ -89,13 +82,9 @@ const Tour = {
             }
             if (type) {
                 const regexTourType = rgSearch(type);
-                foundTour = await tourModel.find(
-                    {
-                        $or: [
-                            { type: { $regex: regexTourType, $options: "i" } }
-                        ]
-
-                    });
+                foundTour = await tourModel.find({
+                    type: { $regex: regexTourType, $options: "i" }
+                });
                 if (!foundTour) throw new Error("We can't find the tour!");
                 res.status(200).send({
                     data: foundTour
