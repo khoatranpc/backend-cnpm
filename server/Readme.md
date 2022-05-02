@@ -26,4 +26,8 @@
 
 -- API lấy tour sử dụng query với otpion: name,place,type
                 : get http://localhost:8000/api/tour/search?place=sơn
-                
+
+-- API update tour: sử dụng truyền params, method put 
+                : put http://localhost:8000/api/tour/update/id
+                ví dụ: http://localhost:8000/api/tour/update/626fefb1183dc3a6ed278046
+                note: put lên các trường cần thay đổi, hoặc nếu không thì sẽ không làm gì cả

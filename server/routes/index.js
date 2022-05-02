@@ -32,6 +32,9 @@ Router.get('/tour/:id', TourController.getOneTour);
 //api update one tour
 Router.put('/tour/update/:id', middleware.checkLogin, TourController.updateTour);
 
+//api delete tour
+Router.delete('/tour/delete/:id', middleware.checkLogin, TourController.deleteTour);
+
 
 
 
