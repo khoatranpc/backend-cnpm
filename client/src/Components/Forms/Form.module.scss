@@ -1,7 +1,8 @@
 /* Login form */
+
 #loginForm{
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     min-width: 480px;
     background-color: #fff;
@@ -10,18 +11,33 @@
     transform: translate(-50%, -50%);
     border-radius: 8px;
     box-shadow: 1px 1px 8px rgba(0,0,0,0.5);
+    h1 {
+        font-size: 38px;
+        padding: 10px 0 20px;
+        margin-top: 8px;
+        letter-spacing: 1px;
+        background: -webkit-linear-gradient(#4158D0 , #C850C0 , #FFCC70);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        border-bottom: 1px solid #FFCC70;
+    }
 }
 
-#loginForm > h1 {
-    font-size: 38px;
-    padding: 10px 0 20px;
-    margin-top: 8px;
-    letter-spacing: 1px;
-    background: -webkit-linear-gradient(#4158D0 , #C850C0 , #FFCC70);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    border-bottom: 1px solid #FFCC70;
+#registerForm{
+    @extend #loginForm;
+    min-width: 600px;
+    min-height: 380px;
+    max-height: 600px;
+    overflow: auto;
+    &::-webkit-scrollbar{
+        width: 5px; 
+    }
+    &::-webkit-scrollbar-thumb {
+        background: -webkit-linear-gradient(#4158D0 , #C850C0 , #FFCC70);
+        border-radius: 25px;
+    }
 }
+
 
 .formGroup{
     padding: 10px 0;
@@ -45,6 +61,11 @@
     outline: none;
 }
 
+input[type="radio"]{
+    margin-left: 10px;
+    cursor: pointer;
+}
+
 .formMsg.formMsgError{
     color: red;
 }
@@ -58,7 +79,6 @@
     }
 }
 
-
 .btnLogin{
     width: 100%;
     background: linear-gradient(to bottom, #4158D0, #C850C0);
@@ -67,4 +87,14 @@
     cursor: pointer;
     border-radius: 8px;
     font-size: 16px;
+}
+
+.btnRegister{
+    @extend .btnLogin;
+    padding: 10px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    &:hover{
+        opacity: 0.8;
+    }
 }

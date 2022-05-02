@@ -39,13 +39,15 @@ html{
 }
 
 .brand-form{
+    position: absolute;
+    z-index: 999;
+    margin: 0;
     color: #fff;
-    font-size: 66px;
+    font-size: 54px;
     letter-spacing: 3px;
     text-shadow: 4px 4px 8px rgb(0 0 0 / 60%);
-    padding-top: 40px;
-    position: relative;
-    display: inline-block;
+    padding-top: 24px;
+    display: block;
     left: 50%;
     transform: translateX(-50%);
 }
