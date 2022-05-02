@@ -3,19 +3,24 @@ const middleware = require('../middlewares');
 
 const AuthController = require('../modules/Auth');
 const TourController = require('../modules/Tours');
-//apis login
+
+// APIs authen
+//api login
 Router.post('/auth/login', AuthController.SignIn);
-//apis signup
+//api signup
 Router.post('/auth/signup', AuthController.SignUp);
-//apis request OTP
+//api request OTP
 Router.post('/auth/sending-otp', AuthController.requireOTP);
-//apis resetpassword
+//api resetpassword
 Router.put('/auth/reset-password', AuthController.resetPassword);
 
-// owner admin
+//APIs tour
 
-//apis add tour
-Router.post('/tour/add-tour', middleware.checkLogin,TourController.addTour);
+//api add tour
+Router.post('/tour/add-tour', middleware.checkLogin, TourController.addTour);
+//api get all tour
+Router.get('/tour/get-all-tour', TourController.getAllTour);
+
 
 
 module.exports = Router;

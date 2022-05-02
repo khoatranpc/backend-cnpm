@@ -22,8 +22,19 @@ const Tour = {
             })
         }
     },
-    getAllTour: async (req,res) => {
-        
+    getAllTour: async (req, res) => {
+        try {
+            const allTour = await tourModel.find();
+            if (!allTour) throw new Error("Sorry, we have not any tour yet!");
+            res.status(200).send({
+                data: allTour
+            })
+        } catch (error) {
+            res.status(404).send({
+                message: error.message
+            })
+        }
+
     }
 
 }
