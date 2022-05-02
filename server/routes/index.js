@@ -17,9 +17,16 @@ Router.put('/auth/reset-password', AuthController.resetPassword);
 //APIs tour
 
 //api add tour
+// cần phải quyền đăng nhập trước và có quyền admin mới có thể thêm
 Router.post('/tour/add-tour', middleware.checkLogin, TourController.addTour);
+
 //api get all tour
 Router.get('/tour/get-all-tour', TourController.getAllTour);
+
+//api get one tour
+Router.get('/tour/:id', TourController.getOneTour);
+
+
 
 
 

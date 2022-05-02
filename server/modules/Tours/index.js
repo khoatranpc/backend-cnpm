@@ -35,6 +35,25 @@ const Tour = {
             })
         }
 
+    },
+    getOneTour: async (req, res) => {
+        try {
+            const { id } = req.params;
+            let tour
+            try {
+                tour = await tourModel.findById(id);
+            } catch (error) {
+                if (!tour) throw new Error("We can't find the tour!")
+            }
+            res.status(200).send({
+                tour: tour
+            })
+
+        } catch (error) {
+            res.status(404).send({
+                message: error.message
+            })
+        }
     }
 
 }
