@@ -13,6 +13,7 @@
                                         "repassword"
 -- API thêm 1 tour dành cho role = admin: post: http://localhost:8000/api/tour/add-tour
                 + gửi lên các trường: tourname, place, price
+                + đính kèm header authoriztion là mã token được trả về khi đăng nhập
 -- API lấy tất cả tour (đã có phân trang, sử dụng query url) : get
                 + tự động lấy 5 tour 1 trang
                 http://localhost:8000/api/tour/get-all-tour
@@ -28,6 +29,14 @@
                 : get http://localhost:8000/api/tour/search?place=sơn
 
 -- API update tour: sử dụng truyền params, method put 
+                + đính kèm header authoriztion là mã token được trả về khi đăng nhập
                 : put http://localhost:8000/api/tour/update/id
                 ví dụ: http://localhost:8000/api/tour/update/626fefb1183dc3a6ed278046
                 note: put lên các trường cần thay đổi, hoặc nếu không thì sẽ không làm gì cả
+
+-- API delete tour: sử dụng params truyền id, method delete với quyền admin
+                + đính kèm header authoriztion là mã token được trả về khi đăng nhập
+                : delete http://localhost:8000/api/tour/delete/id
+                ví dụ: http://localhost:8000/api/tour/delete/626fea3cabb1fbe3784b2d8d
+                : delete http://localhost:8000/api/tour/delete/id
+                         kết quả luôn là successfull!

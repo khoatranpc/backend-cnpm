@@ -1,8 +1,9 @@
+const { response } = require('express');
 const { tourModel, userModel } = require('../../models');
 const Tour = {
     addTour: async (req, res) => {
         try {
-            if(!req.user) throw new Error("Invalid user! controller tour");
+            if (!req.user) throw new Error("Invalid user! controller tour");
             const { id_user, role_user } = req.user;
             console.log(req.user);
             console.log(id_user);
@@ -48,8 +49,6 @@ const Tour = {
             res.status(200).send({
                 tour: tour
             })
-
-
         } catch (error) {
             res.status(404).send({
                 message: error.message
@@ -140,10 +139,11 @@ const Tour = {
                 message: "Delete tour successful",
             })
         } catch (error) {
-
+            res.status(403).send({
+                message: error.message
+            })
         }
-
-
     }
+   
 }
 module.exports = Tour;
