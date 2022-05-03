@@ -19,10 +19,12 @@ const providerJWT = {
     },
     verifyToken: async (token) => {
         try {
-            const verifyToken = await jwt.verify(token, process.env.JWT_SECRET);
+            const verifyToken = await jwt.verify(token, process.env.JWT_SECRET, (err) => {
+                if (err) throw new Error("Invalid User!")
+            });
             return verifyToken;
         } catch (error) {
-            return error.message
+            return "jwt " + error.message
         }
 
     }

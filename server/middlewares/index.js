@@ -4,15 +4,16 @@ const middleware = {
     checkLogin: async (req, res, next) => {
         try {
             const data = req.headers.authorization;
+            console.log('middleware');
             if (data) {
                 const token = data;
-                const parseToken = await providerJWT.verifyToken(token, process.env.JWT_SECRET, (err, user) => {
-                    if(err) throw new Error("Invalid user!")
-                    
-                });
-
+                const parseToken = await providerJWT.verifyToken(token);
+                // dang fix chưa xong
+                console.log(parseToken);
+                console.log('inside middleware');
+                // if (typeof parseToken == 'undefined') throw new Error("Invalid user!")
                 req.user = parseToken;
-                console.log(req.user);
+                console.log('đây là đau');
                 next();
 
             } else {
@@ -20,7 +21,7 @@ const middleware = {
             }
         } catch (error) {
             res.status(401).send({
-                error: error.message
+                error: "Lỗi ở middle " + error.message
             });
         }
 

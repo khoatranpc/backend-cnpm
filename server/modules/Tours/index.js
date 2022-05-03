@@ -2,9 +2,10 @@ const { tourModel, userModel } = require('../../models');
 const Tour = {
     addTour: async (req, res) => {
         try {
+            if(!req.user) throw new Error("Invalid user! controller tour");
             const { id_user, role_user } = req.user;
+            console.log(req.user);
             console.log(id_user);
-            const tour = req.body;
             //check existedUser
             const existedUser = await userModel.findOne({ id_account: id_user });
             console.log(existedUser);
@@ -124,8 +125,10 @@ const Tour = {
     },
     deleteTour: async (req, res) => {
         try {
+            if (!req.user) throw new Error("Invalid User")
+            const { id_user, role_user } = req.user;
             const { id } = req.params;
-
+            console.log(req.user);
             //check existedUser
             const existedUser = await userModel.findOne({ id_account: id_user });
             console.log(existedUser);
