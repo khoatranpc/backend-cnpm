@@ -40,3 +40,5 @@
                 ví dụ: http://localhost:8000/api/tour/delete/626fea3cabb1fbe3784b2d8d
                 : delete http://localhost:8000/api/tour/delete/id
                          kết quả luôn là successfull!
+
+-- API update thông tin user dành cho admin hoặc user: put http://localhost:8000/api/user/current-user/update

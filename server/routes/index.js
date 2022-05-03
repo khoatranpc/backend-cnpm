@@ -3,7 +3,7 @@ const middleware = require('../middlewares');
 
 const AuthController = require('../modules/Auth');
 const TourController = require('../modules/Tours');
-
+const CostumerController = require('../modules/Costumers');
 // APIs authen
 //api login
 Router.post('/auth/login', AuthController.SignIn);
@@ -36,6 +36,12 @@ Router.put('/tour/update/:id', middleware.checkLogin, TourController.updateTour)
 Router.delete('/tour/delete/:id', middleware.checkLogin, TourController.deleteTour);
 
 
+// API dành cho khách hàng
+// get infor current user
+Router.get('/user/current-user', middleware.checkLogin, CostumerController.getDataInfor);
+
+//update thông tin
+Router.put('/user/current-user/update', middleware.checkLogin, CostumerController.updateDataInfor);
 
 
 
