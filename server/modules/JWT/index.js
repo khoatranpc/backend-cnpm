@@ -19,8 +19,8 @@ const providerJWT = {
     },
     verifyToken: async (token) => {
         try {
-            const verifyToken = await jwt.verify(token, process.env.JWT_SECRET, (err) => {
-                if (err) throw new Error("Invalid User!")
+            const verifyToken = await jwt.verify(token, process.env.JWT_SECRET, (err, data) => {
+                if (data) return data;
             });
             return verifyToken;
         } catch (error) {

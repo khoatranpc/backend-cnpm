@@ -9,11 +9,12 @@ const middleware = {
                 const token = data;
                 const parseToken = await providerJWT.verifyToken(token);
                 // dang fix chưa xong
+                // nếu không thể verify được, thì kết quả sẽ là undefined
+                if(typeof parseToken == 'undefined') throw new Error("Invalid user!")
                 console.log(parseToken);
-                console.log('inside middleware');
                 // if (typeof parseToken == 'undefined') throw new Error("Invalid user!")
                 req.user = parseToken;
-                console.log('đây là đau');
+                console.log(req.user);
                 next();
 
             } else {
@@ -21,7 +22,7 @@ const middleware = {
             }
         } catch (error) {
             res.status(401).send({
-                error: "Lỗi ở middle " + error.message
+                error: "Invalid user!"
             });
         }
 
