@@ -159,7 +159,6 @@ const detailBookTourSchema = new mongoose.Schema({
     },
     date_current_book: {
         type: Date,
-        default: Date.now()
     },
     reviews_tour: {
         type: String,

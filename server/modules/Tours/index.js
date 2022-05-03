@@ -1,5 +1,4 @@
-const { response } = require('express');
-const { tourModel, userModel } = require('../../models');
+const { tourModel, userModel, detailBookTourModel } = require('../../models');
 const Tour = {
     addTour: async (req, res) => {
         try {
@@ -12,11 +11,15 @@ const Tour = {
             console.log(existedUser);
             if (!existedUser) throw new Error('You must login first!');
             if (role_user !== "admin") throw new Error('You have no right to add tour!');
+            // tự động cập nhật collection tour và details tour
             const createTour = await tourModel(req.body);
             const addedTour = await createTour.save();
+            const createDetailTour = await detailBookTourModel.create({ id_tour: addedTour.id });
+            const createdTour = await tourModel.findByIdAndUpdate(addedTour.id, { id_detail_bookTour: createDetailTour.id });
             res.status(201).send({
                 message: "Created tour successful",
-                data: addedTour
+                data: createdTour,
+                detailBookTour: createDetailTour
             })
         } catch (error) {
             res.status(403).send({
@@ -143,7 +146,21 @@ const Tour = {
                 message: error.message
             })
         }
+    },
+    getDetailTour: async (req, res) => {
+        try {
+            const { id } = req.params;
+            let tour = await tourModel.findById(id).populate('id_detail_bookTour');
+            if (!tour) throw new Error("We can't find the tour!")
+            res.status(200).send({
+                tour: tour
+            })
+        } catch (error) {
+            res.status(404).send({
+                message: error.message
+            })
+        }
     }
-   
+
 }
 module.exports = Tour;

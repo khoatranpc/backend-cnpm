@@ -34,6 +34,10 @@
                 ví dụ: http://localhost:8000/api/tour/update/626fefb1183dc3a6ed278046
                 note: put lên các trường cần thay đổi, hoặc nếu không thì sẽ không làm gì cả
 
+-- API xem chi tiết đặt tour: truyền params là id
+                : get http://localhost:8000/api/tour/detail/id
+                ví dụ: http://localhost:8000/api/tour/detail/6270afc965ba1bb975bcdf2c
+
 -- API delete tour: sử dụng params truyền id, method delete với quyền admin
                 + đính kèm header authoriztion là mã token được trả về khi đăng nhập
                 : delete http://localhost:8000/api/tour/delete/id

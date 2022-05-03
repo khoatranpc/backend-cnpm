@@ -36,6 +36,10 @@ Router.put('/tour/update/:id', middleware.checkLogin, TourController.updateTour)
 Router.delete('/tour/delete/:id', middleware.checkLogin, TourController.deleteTour);
 
 
+//api detail book tour
+Router.get('/tour/detail/:id', TourController.getDetailTour);
+
+
 // API dành cho khách hàng
 // get infor current user
 Router.get('/user/current-user', middleware.checkLogin, CostumerController.getDataInfor);

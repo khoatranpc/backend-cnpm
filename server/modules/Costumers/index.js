@@ -1,4 +1,4 @@
-const { userModel } = require('../../models');
+const { userModel,detailBookTourModel } = require('../../models');
 const CostumerController = {
     // lấy xông tin cá nhân
     getDataInfor: async (req, res) => {
@@ -49,6 +49,9 @@ const CostumerController = {
                 message: error.message
             })
         }
+    },
+    bookTour: async (req, res) => {
+
     }
 }
 module.exports = CostumerController;
