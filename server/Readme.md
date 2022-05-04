@@ -51,9 +51,9 @@
 -- API thêm ngân hàng: đính kèm headers authorization trường token tài khoản, post lên các trường: bankName, cardNumber
         post http://localhost:8000/api/user/current-user/banking
 
--- API book tour: truyền params là id tour
+-- API book tour: truyền params là id_tour, quantity_user là số người
         post:
-        http://localhost:8000/api/user/current-user/booktour/6270afc965ba1bb975bcdf2c
+        http://localhost:8000/api/user/current-user/booktour/6270afc965ba1bb975bcdf2c/5
 
 ------admin-----
 -- API lấy thông danh sách user với phân trang: gửi lên headers authorization

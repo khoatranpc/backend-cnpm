@@ -74,7 +74,7 @@ const CostumerController = {
             const idBank = createBanking.id
             console.log("id này là id của banking: " + idBank);
             console.log(("đã lưu"));
-            await userModel.findByIdAndUpdate(idUser.id_user, { id_bank: idBank });
+            await userModel.findByIdAndUpdate(idUser.id_user, { id_bank: idBank }, { new: true });
 
             const userAfterUpdate = await userModel.findById(idUser.id_user).populate("id_bank");
             res.status(200).send({
@@ -107,11 +107,11 @@ const CostumerController = {
             const currentMoneyBanking = await bankModel.findOne({ id_user: existedUser.id });
             // lay thong tin tour
             const detailTour = await detailBookTourModel.findOne({ id_tour: id_tour }).populate("id_tour");
-      
-            if (detailTour.id_tour.maxCustomer <= ((detailTour.id_tour.currenCustomer) + Number(quantityUser))) throw new Error("Tour is full!");
+
             const d = new Date();
             if (detailTour.date_end_tour >= d) throw new Error("Tour finished!")
             console.log("adudd");
+            if (detailTour.id_tour.maxCustomer <= ((detailTour.id_tour.currenCustomer) + Number(quantityUser))) throw new Error("Tour is full!");
 
             if (detailTour.id_tour.currenCustomer >= detailTour.id_tour.maxCostumer) throw new Error("Tour is full!")
             if (currentMoneyBanking.currentMoney < detailTour.id_tour.price) throw new Error("Your account does not have enough money!")
@@ -119,7 +119,7 @@ const CostumerController = {
             const currentMoneyAfterPay = Number(currentMoneyBanking.currentMoney) - Number(detailTour.id_tour.price);
 
             // update money in banking
-            const currrentBanking = await bankModel.findOneAndUpdate({ id_user: existedUser.id }, { currentMoney: currentMoneyAfterPay });
+            const currrentBanking = await bankModel.findOneAndUpdate({ id_user: existedUser.id }, { currentMoney: currentMoneyAfterPay }, { new: true });
 
             const billPay = {
                 id_tour: id_tour,
