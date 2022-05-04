@@ -58,6 +58,9 @@ Router.post('/user/current-user/banking', middleware.checkLogin, CostumerControl
 //get detail infor user
 Router.get('/admin/admin-controller/get-data-user/detail-current-user/:id', middleware.checkLogin, AdminController.getDetailUser);
 
+//get detail infor user and update
+Router.post('/admin/admin-controller/get-data-user/detail-current-user/:id', middleware.checkLogin, AdminController.getDetailUserAndUpdate);
+
 //get information user with pagination
 Router.get('/admin/admin-controller/get-data-user', middleware.checkLogin, AdminController.getDataUser);
 

@@ -61,3 +61,27 @@
 http://localhost:8000/api/admin/admin-controller/get-data-user/detail-current-user/id
         ví dụ
         +http://localhost:8000/api/admin/admin-controller/get-data-user/detail-current-user/6271417aa86977f0e51b5b32
+-- API cập nhật thông tin cơ bản cho user: truyền params là id
+        +post vào link lấy thông tin chi tiết user
+        +gửi lên các trường: 
+        //updateInfor, updateAccount, updateBanking là  object
+            // updateInfor nhận các trường : 
+            //      name: 
+            //      email:
+            //      phone: string
+            //      gender: 
+            //      address: 
+            //      birth: Date
+            //      indentify: number
+
+            // updateAccount nhận các trường :
+            //      username:
+            //      password: 
+            //      role:
+
+            // updateBanking nhận các trường:
+            // bankName: 
+            // cardNumber: (Number)
+            // currentMoney: (Number)
+
+        http://localhost:8000/api/admin/admin-controller/get-data-user/detail-current-user/6271417aa86977f0e51b5b32
