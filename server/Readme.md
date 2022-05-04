@@ -50,3 +50,14 @@
 
 -- API thêm ngân hàng: đính kèm headers authorization trường token tài khoản, post lên các trường: bankName, cardNumber
         post http://localhost:8000/api/user/current-user/banking
+
+
+------admin-----
+-- API lấy thông danh sách user với phân trang: gửi lên headers authorization
+        +get: http://localhost:8000/api/admin/admin-controller/get-data-user?page=1
+
+-- API lấy thông tin chi tiết user: truyền params là id
+        +get :
+http://localhost:8000/api/admin/admin-controller/get-data-user/detail-current-user/id
+        ví dụ
+        +http://localhost:8000/api/admin/admin-controller/get-data-user/detail-current-user/6271417aa86977f0e51b5b32

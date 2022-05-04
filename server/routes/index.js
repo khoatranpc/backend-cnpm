@@ -4,6 +4,7 @@ const middleware = require('../middlewares');
 const AuthController = require('../modules/Auth');
 const TourController = require('../modules/Tours');
 const CostumerController = require('../modules/Costumers');
+const AdminController = require('../modules/Admin');
 // APIs authen
 //api login
 Router.post('/auth/login', AuthController.SignIn);
@@ -50,6 +51,15 @@ Router.put('/user/current-user/update', middleware.checkLogin, CostumerControlle
 // add banking
 Router.post('/user/current-user/banking', middleware.checkLogin, CostumerController.addBanking);
 
+
+//Admin
+
+
+//get detail infor user
+Router.get('/admin/admin-controller/get-data-user/detail-current-user/:id', middleware.checkLogin, AdminController.getDetailUser);
+
+//get information user with pagination
+Router.get('/admin/admin-controller/get-data-user', middleware.checkLogin, AdminController.getDataUser);
 
 
 
