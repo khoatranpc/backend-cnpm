@@ -107,10 +107,11 @@ const CostumerController = {
             const currentMoneyBanking = await bankModel.findOne({ id_user: existedUser.id });
             // lay thong tin tour
             const detailTour = await detailBookTourModel.findOne({ id_tour: id_tour }).populate("id_tour");
-            
+      
+            if (detailTour.id_tour.maxCustomer <= ((detailTour.id_tour.currenCustomer) + Number(quantityUser))) throw new Error("Tour is full!");
             const d = new Date();
-            if(detailTour.date_end_tour >= d) throw new Error("Tour finished!")
-       
+            if (detailTour.date_end_tour >= d) throw new Error("Tour finished!")
+            console.log("adudd");
 
             if (detailTour.id_tour.currenCustomer >= detailTour.id_tour.maxCostumer) throw new Error("Tour is full!")
             if (currentMoneyBanking.currentMoney < detailTour.id_tour.price) throw new Error("Your account does not have enough money!")
@@ -130,7 +131,8 @@ const CostumerController = {
             const updateCurrentCostumerForTour = await tourModel.findByIdAndUpdate(detailTour.id_tour, {
                 // nếu số lượng lớn hơn 1, thì sẽ trả về, còn nếu không thì sẽ mặc định là 1
                 $inc: { currenCustomer: quantityUser }
-            }, { new: true })
+            }, { new: true });
+
             console.log("-----");
             res.status(200).send({
                 message: "Pay bill successfull!",

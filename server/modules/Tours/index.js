@@ -158,7 +158,8 @@ const Tour = {
                 tourUpdateStatus= await tourModel.findByIdAndUpdate(id, { status: "Finished" }, { new: true })
             }
             res.status(200).send({
-                tour: tourUpdateStatus
+                tour: tourUpdateStatus,
+                
             })
         } catch (error) {
             res.status(404).send({
