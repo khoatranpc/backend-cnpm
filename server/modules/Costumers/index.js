@@ -29,7 +29,7 @@ const CostumerController = {
             if (!req.user) throw new Error("Invalid user! controller tour");
             const { id_user, role_user } = req.user;
 
-            const existedUser = await userModel.findOneAndUpdate({ id_account: id_user }, req.body);
+            const existedUser = await userModel.findOneAndUpdate({ id_account: id_user }, req.body, { new: true });
             console.log("-----");
             const fetchNewData = await userModel.findById(existedUser.id);
             // nếu không phải admin hoặc user thì sẽ không thể update

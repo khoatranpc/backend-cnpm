@@ -75,11 +75,11 @@ const AdminController = {
             if (!foundUser) throw new Error("We can not found this user!");
             //update thông tin cá nhân của user
 
-            const updateUser = await userModel.findByIdAndUpdate(id, updateInfor);
+            const updateUser = await userModel.findByIdAndUpdate(id, updateInfor, { new: true });
 
-            const updateAccountUser = await accountModel.findOneAndUpdate({ id_user: id }, updateAccount);
+            const updateAccountUser = await accountModel.findOneAndUpdate({ id_user: id }, updateAccount, { new: true });
 
-            const updateBankingUser = await bankModel.findOneAndUpdate({ id_user: id }, updateBanking);
+            const updateBankingUser = await bankModel.findOneAndUpdate({ id_user: id }, updateBanking, { new: true });
 
             res.status(200).send({
                 message: "Update successfull!",

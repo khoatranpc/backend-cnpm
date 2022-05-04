@@ -119,7 +119,7 @@ const Auth = {
             // sử dụng mailer để gửi mail
             await mailer(req, res, otpAccount.otp, email);
             setTimeout(async () => {
-                await otpAccountUserModel.findOneAndUpdate({ id_account: existedEmail.id_account._id }, { otp: otp.createOTP() })
+                await otpAccountUserModel.findOneAndUpdate({ id_account: existedEmail.id_account._id }, { otp: otp.createOTP() }, { new: true })
             }, 30000)
             res.status(200).send({
                 otp: otpAccount.otp,
@@ -155,7 +155,7 @@ const Auth = {
                 throw new Error("Password is not match! Try again!")
             }
             const hashedPassword = await encryptPassword.hashPassword(password);
-            const accountUpdate = await accountModel.findByIdAndUpdate(id_account, { password: hashedPassword });
+            const accountUpdate = await accountModel.findByIdAndUpdate(id_account, { password: hashedPassword }, { new: true });
             if (!accountUpdate)
                 throw new Error('Not found email!');
             res.status(200).send({

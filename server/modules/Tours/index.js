@@ -113,7 +113,7 @@ const Tour = {
             if (!existedUser) throw new Error('You must login first!');
             if (role_user !== "admin") throw new Error('You have no right to update tour!');
             //update các trường tương ứng với object được gửi từ client : req.body
-            await tourModel.findByIdAndUpdate(id, req.body)
+            await tourModel.findByIdAndUpdate(id, req.body, { new: true })
             const updatedTour = await tourModel.findById(id);
             res.status(201).send({
                 message: "Update tour successful",
