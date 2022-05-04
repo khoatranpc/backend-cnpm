@@ -51,6 +51,9 @@ Router.put('/user/current-user/update', middleware.checkLogin, CostumerControlle
 // add banking
 Router.post('/user/current-user/banking', middleware.checkLogin, CostumerController.addBanking);
 
+//book tour
+Router.post('/user/current-user/booktour/:id_tour/:quantity_user', middleware.checkLogin, CostumerController.bookTour);
+
 
 //Admin
 

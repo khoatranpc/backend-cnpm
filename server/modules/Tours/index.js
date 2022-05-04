@@ -152,8 +152,13 @@ const Tour = {
             const { id } = req.params;
             let tour = await tourModel.findById(id).populate('id_detail_bookTour');
             if (!tour) throw new Error("We can't find the tour!")
+            const d = new Date();
+            let tourUpdateStatus;
+            if (tour.id_detail_bookTour.date_end_tour < d) {
+                tourUpdateStatus= await tourModel.findByIdAndUpdate(id, { status: "Finished" }, { new: true })
+            }
             res.status(200).send({
-                tour: tour
+                tour: tourUpdateStatus
             })
         } catch (error) {
             res.status(404).send({

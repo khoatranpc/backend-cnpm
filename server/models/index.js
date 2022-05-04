@@ -88,6 +88,11 @@ const bankSchema = new mongoose.Schema({
 
 })
 const billSchema = new mongoose.Schema({
+
+    id_tour: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Tour"
+    },
     money: {
         type: Number,
         default: 0,
@@ -96,9 +101,15 @@ const billSchema = new mongoose.Schema({
     methodBill: {
         type: String,
         default: "Banking"
-    }, id_user: {
+    },
+    id_user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "UserInfor"
+    },
+    datePay: {
+        type: Date,
+        required: true,
+        default: Date.now()
     }
 })
 
@@ -143,6 +154,10 @@ const tourSchema = new mongoose.Schema({
         type: String,
         default: "Nhóm 1 Đẹp trai"
     },
+    status: {
+        type: String,
+        default: "Activing"
+    },
     id_detail_bookTour: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "detailBookTour"
@@ -152,13 +167,6 @@ const detailBookTourSchema = new mongoose.Schema({
     id_tour: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Tour"
-    },
-    id_user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "UserInfor"
-    },
-    date_current_book: {
-        type: Date,
     },
     reviews_tour: {
         type: String,

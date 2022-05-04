@@ -1,5 +1,4 @@
-const { response } = require('express');
-const { userModel, detailBookTourModel, bankModel, accountModel } = require('../../models');
+const { userModel, bankModel, accountModel, detailBookTourModel, billModel, tourModel } = require('../../models');
 const CostumerController = {
     // lấy xông tin cá nhân
     getDataInfor: async (req, res) => {
@@ -86,23 +85,65 @@ const CostumerController = {
                 message: err.message
             })
         }
+    },
+    bookTour: async (req, res) => {
+        try {
+            if (!req.user) throw new Error("Invalid user! controller tour");
+            const { id_user, role_user } = req.user;
+            const { id_tour, quantity_user } = req.params;
+            if (role_user !== "user") throw new Error("You are forbidden!");
+            //default quantity = 1
+            let quantityUser
+
+            if (Number(quantity_user) > 1 && quantity_user) {
+                quantityUser = quantity_user
+            } else {
+                quantityUser = 1
+            }
+
+            //tim user
+            const existedUser = await userModel.findOne({ id_account: id_user });
+            // lay so tien hien tai cua user
+            const currentMoneyBanking = await bankModel.findOne({ id_user: existedUser.id });
+            // lay thong tin tour
+            const detailTour = await detailBookTourModel.findOne({ id_tour: id_tour }).populate("id_tour");
+            
+            const d = new Date();
+            if(detailTour.date_end_tour >= d) throw new Error("Tour finished!")
+       
+
+            if (detailTour.id_tour.currenCustomer >= detailTour.id_tour.maxCostumer) throw new Error("Tour is full!")
+            if (currentMoneyBanking.currentMoney < detailTour.id_tour.price) throw new Error("Your account does not have enough money!")
+            //tinh tien khi thanh toan
+            const currentMoneyAfterPay = Number(currentMoneyBanking.currentMoney) - Number(detailTour.id_tour.price);
+
+            // update money in banking
+            const currrentBanking = await bankModel.findOneAndUpdate({ id_user: existedUser.id }, { currentMoney: currentMoneyAfterPay });
+
+            const billPay = {
+                id_tour: id_tour,
+                id_user: existedUser.id,
+                money: detailTour.id_tour.price
+            }
+            //tạo bill và cập nhật các khách hàng tại tour
+            const createBill = await billModel.create(billPay);
+            const updateCurrentCostumerForTour = await tourModel.findByIdAndUpdate(detailTour.id_tour, {
+                // nếu số lượng lớn hơn 1, thì sẽ trả về, còn nếu không thì sẽ mặc định là 1
+                $inc: { currenCustomer: quantityUser }
+            }, { new: true })
+            console.log("-----");
+            res.status(200).send({
+                message: "Pay bill successfull!",
+                bill: createBill,
+                currentBanking: currrentBanking,
+                detail_tour: detailTour,
+                tour: updateCurrentCostumerForTour
+            })
+        } catch (error) {
+            res.status(403).send({
+                message: error.message
+            })
+        }
     }
-    // bookTour: async (req, res) => {
-    //     if (!req.user) throw new Error("Invalid user! controller tour");
-    //     const { id_user, role_user, id_tour } = req.user;
-
-    //     const bookTour = await detailBookTourModel.findOne({ id_tour: id_tour });
-    //     // nếu không phải admin hoặc user thì sẽ không thể update
-    //     if (role_user == "user") {
-
-    //         res.status(200).send({
-    //             message: "Update successfull!",
-    //             data: fetchNewData,
-    //             role: role_user
-    //         })
-    //     } else {
-    //         throw new Error('You are forbidden!');
-    //     }
-    // }
 }
 module.exports = CostumerController;
