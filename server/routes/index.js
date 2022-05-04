@@ -47,6 +47,8 @@ Router.get('/user/current-user', middleware.checkLogin, CostumerController.getDa
 //update thông tin
 Router.put('/user/current-user/update', middleware.checkLogin, CostumerController.updateDataInfor);
 
+// add banking
+Router.post('/user/current-user/banking', middleware.checkLogin, CostumerController.addBanking);
 
 
 

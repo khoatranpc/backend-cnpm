@@ -90,8 +90,8 @@ const bankSchema = new mongoose.Schema({
 const billSchema = new mongoose.Schema({
     money: {
         type: Number,
-        refault: 0,
-        required: 0
+        default: 0,
+        required: true
     },
     methodBill: {
         type: String,

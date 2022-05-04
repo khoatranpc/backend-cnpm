@@ -81,7 +81,7 @@ const Auth = {
                 otp: createOtp
             }
             const createOTP = await otpAccountUserModel.create(otpModel);
-
+            
             //tạo tài khoản tương ứng
             const currentInfor = {
                 name: name,
@@ -93,6 +93,7 @@ const Auth = {
                 id_account: newAccount.id
             }
             const currentUSer = await userModel.create(currentInfor);
+           
             res.status(201).send({
                 message: "Sign Up successful!",
                 currentUser: currentUSer

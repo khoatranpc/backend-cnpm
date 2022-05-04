@@ -45,4 +45,8 @@
                 : delete http://localhost:8000/api/tour/delete/id
                          kết quả luôn là successfull!
 
--- API update thông tin user dành cho admin hoặc user: put http://localhost:8000/api/user/current-user/update
+-- API update thông tin user dành cho admin hoặc user:
+                put http://localhost:8000/api/user/current-user/update
+
+-- API thêm ngân hàng: đính kèm headers authorization trường token tài khoản, post lên các trường: bankName, cardNumber
+        post http://localhost:8000/api/user/current-user/banking
