@@ -3,7 +3,7 @@ const middleware = require('../middlewares');
 
 const AuthController = require('../modules/Auth');
 const TourController = require('../modules/Tours');
-const CostumerController = require('../modules/Costumers');
+const UserContorller = require('../modules/Users');
 const AdminController = require('../modules/Admin');
 // APIs authen
 //api login
@@ -37,22 +37,26 @@ Router.put('/tour/update/:id', middleware.checkLogin, TourController.updateTour)
 Router.delete('/tour/delete/:id', middleware.checkLogin, TourController.deleteTour);
 
 
+//api add Tour Guide
+Router.put('/tour/add-Tour-Guide/:id', middleware.checkLogin, TourController.addTourGuide);
+
+
 //api detail book tour
 Router.get('/tour/detail/:id', TourController.getDetailTour);
 
 
 // API dành cho khách hàng
 // get infor current user
-Router.get('/user/current-user', middleware.checkLogin, CostumerController.getDataInfor);
+Router.get('/user/current-user', middleware.checkLogin, UserContorller.getDataInfor);
 
 //update thông tin
-Router.put('/user/current-user/update', middleware.checkLogin, CostumerController.updateDataInfor);
+Router.put('/user/current-user/update', middleware.checkLogin, UserContorller.updateDataInfor);
 
 // add banking
-Router.post('/user/current-user/banking', middleware.checkLogin, CostumerController.addBanking);
+Router.post('/user/current-user/banking', middleware.checkLogin, UserContorller.addBanking);
 
 //book tour
-Router.post('/user/current-user/booktour/:id_tour/:quantity_user', middleware.checkLogin, CostumerController.bookTour);
+Router.post('/user/current-user/booktour/:id_tour/:quantity_user', middleware.checkLogin, UserContorller.bookTour);
 
 
 //Admin

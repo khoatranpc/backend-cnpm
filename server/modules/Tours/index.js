@@ -1,4 +1,4 @@
-const { tourModel, userModel, detailBookTourModel } = require('../../models');
+const { tourModel, userModel, detailBookTourModel, accountModel } = require('../../models');
 const Tour = {
     addTour: async (req, res) => {
         try {
@@ -155,14 +155,42 @@ const Tour = {
             const d = new Date();
             let tourUpdateStatus;
             if (tour.id_detail_bookTour.date_end_tour < d) {
-                tourUpdateStatus= await tourModel.findByIdAndUpdate(id, { status: "Finished" }, { new: true })
+                tourUpdateStatus = await tourModel.findByIdAndUpdate(id, { status: "Finished" }, { new: true })
             }
             res.status(200).send({
                 tour: tourUpdateStatus,
-                
+
             })
         } catch (error) {
             res.status(404).send({
+                message: error.message
+            })
+        }
+    },
+    // thêm người dẫn tour vào 1 tour
+    addTourGuide: async (req, res) => {
+        try {
+            if (!req.user) throw new Error("Invalid User")
+            const { id_user, role_user } = req.user;
+            const { id_tour } = req.params;
+            const { id_guide } = req.body;
+            console.log(req.user);
+            //check existedUser
+            const existedUser = await userModel.findOne({ id_account: id_user });
+
+            if (!existedUser) throw new Error('You must login first!');
+            if (role_user !== "admin") throw new Error('You have no right to add tour guide!');
+            // find user with role = guide
+            const findTourGuide = await accountModel.findOne({ id_user: id_guide });
+            if (!findTourGuide) throw new Error('Not found user!');
+            if (findTourGuide.role !== "guide") throw new Error('This user cannot be added to the tour!');
+            console.log("Đây là user guide");
+            // tìm tour và update trường id_user = id_guide gửi lên
+
+            const findTour = await tourModel.findByIdAndUpdate(id_tour, { id_user: id_guide })
+
+        } catch (error) {
+            res.status(500).send({
                 message: error.message
             })
         }

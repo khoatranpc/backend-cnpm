@@ -33,7 +33,7 @@ const CostumerController = {
             console.log("-----");
             const fetchNewData = await userModel.findById(existedUser.id);
             // nếu không phải admin hoặc user thì sẽ không thể update
-            if (role_user == "admin" || role_user == "user") {
+            if (role_user == "admin" || role_user == "user" || role_user == "guide") {
                 res.status(200).send({
                     message: "Update successfull!",
                     data: fetchNewData,
@@ -63,20 +63,21 @@ const CostumerController = {
             //check card number trung
             const existedCardNumber = await bankModel.findOne({ cardNumber: cardNumber });
             if (existedCardNumber) throw new Error('Try again another Card number!');
-            const idUser = await accountModel.findById(id_user);
+            const idUser = await userModel.findOne({id_account:id_user});
             console.log(idUser);
             const banking = {
                 ...req.body,
-                id_user: idUser.id_user
+                id_user: idUser.id
             }
+            console.log(banking);
             // nếu không lưu được, là do bank king chỉ nhận 1 card number
             const createBanking = await bankModel.create(banking);
             const idBank = createBanking.id
             console.log("id này là id của banking: " + idBank);
             console.log(("đã lưu"));
-            await userModel.findByIdAndUpdate(idUser.id_user, { id_bank: idBank }, { new: true });
+            const userupdate = await userModel.findByIdAndUpdate(idUser.id, { id_bank: idBank }, { new: true });
 
-            const userAfterUpdate = await userModel.findById(idUser.id_user).populate("id_bank");
+            const userAfterUpdate = await userModel.findById(idUser.id).populate("id_bank");
             res.status(200).send({
                 user: userAfterUpdate
             })
@@ -147,5 +148,7 @@ const CostumerController = {
             })
         }
     }
+    // dành cho người dẫn tour
+
 }
 module.exports = CostumerController;

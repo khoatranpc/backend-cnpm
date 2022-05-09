@@ -161,6 +161,10 @@ const tourSchema = new mongoose.Schema({
     id_detail_bookTour: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "detailBookTour"
+    },
+    id_user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "UserInfor"
     }
 })
 const detailBookTourSchema = new mongoose.Schema({
