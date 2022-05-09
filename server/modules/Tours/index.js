@@ -31,7 +31,7 @@ const Tour = {
         try {
             const { page } = req.query;
             //pagination
-            const allTour = await tourModel.find().limit(5).skip((page - 1) * 5);
+            const allTour = await tourModel.find().limit(6).skip((page - 1) * 6);
             if (!allTour) throw new Error("Sorry, we have not any tour yet!");
             res.status(200).send({
                 total: allTour.length,
