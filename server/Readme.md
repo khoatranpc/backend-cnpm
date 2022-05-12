@@ -1,10 +1,16 @@
 ### Cách dùng api
 -- API đăng nhập: post http://localhost:8000/api/auth/login
                 + gửi lên các trường: username, password
+                
+                
 -- API đăng ký: post http://localhost:8000/api/auth/signup
                 + gửi lên các trường: username, password, repassword (repassword có ý nghĩa là nhập lại mật khẩu)
+                
+                
 -- API yêu cầu mã OTP: post http://localhost:8000/api/auth/sending-otp
                 + gửi lên các trường: username, email
+                
+                
 -- API reset mật khẩu: put http://localhost:8000/api/auth/reset-password
                 + gửi lên các trường:  "receivedOtp":true,
                                         "otp"
@@ -14,6 +20,8 @@
 -- API thêm 1 tour dành cho role = admin: post: http://localhost:8000/api/tour/add-tour
                 + gửi lên các trường: tourname, place, price
                 + đính kèm header authoriztion là mã token được trả về khi đăng nhập
+                
+                
 -- API lấy tất cả tour (đã có phân trang, sử dụng query url) : get
                 + tự động lấy 5 tour 1 trang
                 http://localhost:8000/api/tour/get-all-tour
