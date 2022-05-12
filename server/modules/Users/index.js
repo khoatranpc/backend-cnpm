@@ -63,7 +63,7 @@ const CostumerController = {
             //check card number trung
             const existedCardNumber = await bankModel.findOne({ cardNumber: cardNumber });
             if (existedCardNumber) throw new Error('Try again another Card number!');
-            const idUser = await userModel.findOne({id_account:id_user});
+            const idUser = await userModel.findOne({ id_account: id_user });
             console.log(idUser);
             const banking = {
                 ...req.body,
@@ -108,16 +108,18 @@ const CostumerController = {
             const currentMoneyBanking = await bankModel.findOne({ id_user: existedUser.id });
             // lay thong tin tour
             const detailTour = await detailBookTourModel.findOne({ id_tour: id_tour }).populate("id_tour");
-
+            if(!detailTour) throw new Error("Not found Tour!")
+            console.log(detailTour);
             const d = new Date();
             if (detailTour.date_end_tour >= d) throw new Error("Tour finished!")
             console.log("adudd");
             if (detailTour.id_tour.maxCustomer <= ((detailTour.id_tour.currenCustomer) + Number(quantityUser))) throw new Error("Tour is full!");
 
             if (detailTour.id_tour.currenCustomer >= detailTour.id_tour.maxCostumer) throw new Error("Tour is full!")
-            if (currentMoneyBanking.currentMoney < detailTour.id_tour.price) throw new Error("Your account does not have enough money!")
+            const moneyTotal = detailTour.id_tour.price * quantityUser;
+            if (currentMoneyBanking.currentMoney < moneyTotal) throw new Error("Your Bank does not have enough money!")
             //tinh tien khi thanh toan
-            const currentMoneyAfterPay = Number(currentMoneyBanking.currentMoney) - Number(detailTour.id_tour.price);
+            const currentMoneyAfterPay = Number(currentMoneyBanking.currentMoney) - Number(moneyTotal);
 
             // update money in banking
             const currrentBanking = await bankModel.findOneAndUpdate({ id_user: existedUser.id }, { currentMoney: currentMoneyAfterPay }, { new: true });
@@ -125,7 +127,8 @@ const CostumerController = {
             const billPay = {
                 id_tour: id_tour,
                 id_user: existedUser.id,
-                money: detailTour.id_tour.price
+                money: moneyTotal,
+                totalPerson: quantityUser
             }
             //tạo bill và cập nhật các khách hàng tại tour
             const createBill = await billModel.create(billPay);

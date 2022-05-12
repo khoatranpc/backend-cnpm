@@ -110,6 +110,9 @@ const billSchema = new mongoose.Schema({
         type: Date,
         required: true,
         default: Date.now()
+    },
+    totalPerson: {
+        type: Number
     }
 })
 
@@ -160,11 +163,7 @@ const tourSchema = new mongoose.Schema({
     },
     id_detail_bookTour: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "detailBookTour"
-    },
-    id_user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "UserInfor"
+        ref: "detailTour"
     }
 })
 const detailBookTourSchema = new mongoose.Schema({
@@ -200,7 +199,7 @@ const bankModel = new mongoose.model('UserBank', bankSchema);
 const otpAccountUserModel = new mongoose.model('otpAccount', otpAccountUserSchema);
 const billModel = new mongoose.model("Bill", billSchema);
 const tourModel = new mongoose.model("Tour", tourSchema);
-const detailBookTourModel = new mongoose.model("detailBookTour", detailBookTourSchema);
+const detailBookTourModel = new mongoose.model("detailTour", detailBookTourSchema);
 module.exports = {
     accountModel, userModel, bankModel, otpAccountUserModel, billModel, tourModel, detailBookTourModel
 };
