@@ -111,6 +111,10 @@ const billSchema = new mongoose.Schema({
         required: true,
         default: Date.now()
     },
+    status: {
+        type: String,
+        default: "Compelete"
+    },
     totalPerson: {
         type: Number
     }
@@ -137,7 +141,7 @@ const tourSchema = new mongoose.Schema({
         type: Number,
         default: 30
     },
-    currenCustomer: {
+    currentCustomer: {
         type: Number,
         default: 0
     },
