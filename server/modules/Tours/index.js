@@ -1,4 +1,4 @@
-const { tourModel, userModel, detailBookTourModel, accountModel } = require('../../models');
+const { tourModel, userModel, detailBookTourModel, accountModel, detailGuideTourModel } = require('../../models');
 const Tour = {
     addTour: async (req, res) => {
         try {
@@ -15,11 +15,11 @@ const Tour = {
             const createTour = await tourModel(req.body);
             const addedTour = await createTour.save();
             const createDetailTour = await detailBookTourModel.create({ id_tour: addedTour.id });
-            const createdTour = await tourModel.findByIdAndUpdate(addedTour.id, { id_detail_bookTour: createDetailTour.id });
+            const createdTour = await tourModel.findByIdAndUpdate(addedTour.id, { id_detail_Tour: createDetailTour.id });
             res.status(201).send({
                 message: "Created tour successful",
                 data: createdTour,
-                detailBookTour: createDetailTour
+                detailTour: createDetailTour
             })
         } catch (error) {
             res.status(403).send({
@@ -150,11 +150,11 @@ const Tour = {
     getDetailTour: async (req, res) => {
         try {
             const { id } = req.params;
-            let tour = await tourModel.findById(id).populate('id_detail_bookTour');
+            let tour = await tourModel.findById(id).populate('id_detail_Tour');
             if (!tour) throw new Error("We can't find the tour!")
             const d = new Date();
             let tourUpdateStatus;
-            if (tour.id_detail_bookTour.date_end_tour < d) {
+            if (tour.id_detail_Tour.date_end_tour < d) {
                 tourUpdateStatus = await tourModel.findByIdAndUpdate(id, { status: "Finished" }, { new: true })
             }
             res.status(200).send({
@@ -181,13 +181,50 @@ const Tour = {
             if (!existedUser) throw new Error('You must login first!');
             if (role_user !== "admin") throw new Error('You have no right to add tour guide!');
             // find user with role = guide
-            const findTourGuide = await accountModel.findOne({ id_user: id_guide });
+            const findTourGuide = await userModel.findById(id_guide).populate("id_account");
             if (!findTourGuide) throw new Error('Not found user!');
-            if (findTourGuide.role !== "guide") throw new Error('This user cannot be added to the tour!');
+            if (findTourGuide.id_account.role !== "guide") throw new Error('This user cannot be added to the tour!');
             console.log("Đây là user guide");
             // tìm tour và update trường id_user = id_guide gửi lên
+            // tìm tour
+            // tìm tour trong bảng người dẫn tour
+            const detailGuideTour = await detailGuideTourModel.findOne({ id_user: findTourGuide.id }).populate("id_detail_tour");
+            console.log(detailGuideTour);
+            if (!detailGuideTour) {
+                // lưu luôn vào db
+                const addGuideTour = await detailGuideTourModel({
+                    id_user: id_guide,
+                    id_detail_tour: []
+                })
+                const added = await addGuideTour.save();
+                const addTour = await detailGuideTourModel.findById(added.id);
+                console.log("Đây là addTour", addTour);
+                const update = await addTour.updateOne({ $push: { id_detail_tour: id_tour } });
+                res.status(200).send({
+                    message: "Thêm thành công"
+                })
+            } else {
+                const findDetailTour = await detailBookTourModel.findOne({ id_tour: id_tour });
+                detailGuideTour.id_detail_tour.map(async (item, index) => {
+                    try {
 
-            const findTour = await tourModel.findByIdAndUpdate(id_tour, { id_user: id_guide })
+
+                        if (item.date_end_tour < findDetailTour.date_begin_tour) {
+                            const addTour = await detailGuideTourModel.findById(added.id);
+                            const update = await addTour.updateOne({ $push: { id_detail_tour: id_tour } });
+                            res.status(200).send({
+                                message: "Thêm thành công"
+                            })
+                        } else {
+                            throw new Error("Không thêm được! Do người dẫn tour trùng lịch");
+                        }
+                    } catch (error) {
+                        res.status(500).send({
+                            message: error.message
+                        })
+                    }
+                })
+            }
 
         } catch (error) {
             res.status(500).send({

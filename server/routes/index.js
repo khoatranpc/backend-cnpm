@@ -38,7 +38,7 @@ Router.delete('/tour/delete/:id', middleware.checkLogin, TourController.deleteTo
 
 
 //api add Tour Guide
-Router.put('/tour/add-Tour-Guide/:id', middleware.checkLogin, TourController.addTourGuide);
+Router.put('/tour/add-Tour-Guide/:id_tour', middleware.checkLogin, TourController.addTourGuide);
 
 
 //api detail book tour

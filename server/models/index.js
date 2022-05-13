@@ -165,7 +165,7 @@ const tourSchema = new mongoose.Schema({
         type: String,
         default: "Activing"
     },
-    id_detail_bookTour: {
+    id_detail_Tour: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "detailTour"
     }
@@ -194,7 +194,18 @@ const detailBookTourSchema = new mongoose.Schema({
         default: "There are no comment yet!"
     }
 })
-
+const detailGuideTourSchema = new mongoose.Schema({
+    id_user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "UserInfor"
+    },
+    id_detail_tour: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Tour"
+        },
+    ],
+})
 
 
 const accountModel = new mongoose.model('Account', accountSchema);
@@ -204,6 +215,7 @@ const otpAccountUserModel = new mongoose.model('otpAccount', otpAccountUserSchem
 const billModel = new mongoose.model("Bill", billSchema);
 const tourModel = new mongoose.model("Tour", tourSchema);
 const detailBookTourModel = new mongoose.model("detailTour", detailBookTourSchema);
+const detailGuideTourModel = new mongoose.model("detailGuideTour", detailGuideTourSchema);
 module.exports = {
-    accountModel, userModel, bankModel, otpAccountUserModel, billModel, tourModel, detailBookTourModel
+    accountModel, userModel, bankModel, otpAccountUserModel, billModel, tourModel, detailBookTourModel, detailGuideTourModel
 };
