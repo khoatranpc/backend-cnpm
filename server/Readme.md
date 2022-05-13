@@ -99,4 +99,6 @@ http://localhost:8000/api/admin/admin-controller/get-data-user/detail-current-us
 
         http://localhost:8000/api/admin/admin-controller/get-data-user/detail-current-user/6271417aa86977f0e51b5b32
 
-vấn đề trước mắt: Hủy tour, còn gì nữa đang nghĩ
+-- API thêm người dãn tour vào 1 tour:
+        truyền params id_tour, body gửi lên là id_guide
+        put: http://localhost:8000/api/tour/add-Tour-Guide/ id_tour
