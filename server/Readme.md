@@ -102,3 +102,9 @@ http://localhost:8000/api/admin/admin-controller/get-data-user/detail-current-us
 -- API thêm người dãn tour vào 1 tour:
         truyền params id_tour, body gửi lên là id_guide
         put: http://localhost:8000/api/tour/add-Tour-Guide/ id_tour
+
+// cần thêm API hủy đặt tour cho người dùng, xem danh sách tour được dẫn với guide
+
+-- API xem thông tin tour được dẫn dành cho guide đã đăng nhập
+        get: http://localhost:8000/api/user/guider/tour-guide
+        đính kèm token được trả về sau khi đăng nhập

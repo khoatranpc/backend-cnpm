@@ -207,8 +207,7 @@ const Tour = {
                 const findDetailTour = await detailBookTourModel.findOne({ id_tour: id_tour });
                 detailGuideTour.id_detail_tour.map(async (item, index) => {
                     try {
-
-
+                        // cần test thêm
                         if (item.date_end_tour < findDetailTour.date_begin_tour) {
                             const addTour = await detailGuideTourModel.findById(added.id);
                             const update = await addTour.updateOne({ $push: { id_detail_tour: id_tour } });

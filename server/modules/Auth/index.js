@@ -120,7 +120,7 @@ const Auth = {
             await mailer(req, res, otpAccount.otp, email);
             setTimeout(async () => {
                 await otpAccountUserModel.findOneAndUpdate({ id_account: existedEmail.id_account._id }, { otp: otp.createOTP() }, { new: true })
-            }, 30000)
+            }, 300000)
             res.status(200).send({
                 otp: otpAccount.otp,
                 id_account: existedEmail.id_account.id,
@@ -151,6 +151,7 @@ const Auth = {
             if (password !== repassword)
                 throw new Error('Password not match!');
             const otpCurrentAccount = await otpAccountUserModel.findOne({ id_account: id_account });
+            console.log(otpCurrentAccount.otp);
             if (otp != otpCurrentAccount.otp) {
                 throw new Error("Password is not match! Try again!")
             }

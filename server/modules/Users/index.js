@@ -1,4 +1,4 @@
-const { userModel, bankModel, accountModel, detailBookTourModel, billModel, tourModel } = require('../../models');
+const { userModel, bankModel, accountModel, detailGuideTourModel, detailBookTourModel, billModel, tourModel } = require('../../models');
 const CostumerController = {
     // lấy xông tin cá nhân
     getDataInfor: async (req, res) => {
@@ -108,7 +108,7 @@ const CostumerController = {
             const currentMoneyBanking = await bankModel.findOne({ id_user: existedUser.id });
             // lay thong tin tour
             const detailTour = await detailBookTourModel.findOne({ id_tour: id_tour }).populate("id_tour");
-            if(!detailTour) throw new Error("Not found Tour!")
+            if (!detailTour) throw new Error("Not found Tour!")
             console.log(detailTour);
             const d = new Date();
             if (detailTour.date_end_tour >= d) throw new Error("Tour finished!")
@@ -150,8 +150,27 @@ const CostumerController = {
                 message: error.message
             })
         }
-    }
+    },
     // dành cho người dẫn tour
+    // lấy thông tin tour được dẫn cho người dẫn tour
+    findTourforSelf: async (req, res) => {
+        try {
+            if (!req.user) throw new Error("Invalid user! controller tour");
+            const { id_user, role_user } = req.user;
+            if (role_user !== "guide") throw new Error("You are forbidden!");
+            const guide = await userModel.findOne({ id_account: id_user });
+            if (!guide) throw new Error("Unknown Guider!");
+            const findGuideTour = await detailGuideTourModel.findOne({ id_user: guide.id }).populate("id_detail_tour");
+            res.status(200).send({
+                message: "Found!",
+                data: findGuideTour
+            })
+        } catch (error) {
+            res.status(500).send({
+                message: error.message
+            })
+        }
+    }
 
 }
 module.exports = CostumerController;

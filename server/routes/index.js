@@ -58,6 +58,9 @@ Router.post('/user/current-user/banking', middleware.checkLogin, UserContorller.
 //book tour
 Router.post('/user/current-user/booktour/:id_tour/:quantity_user', middleware.checkLogin, UserContorller.bookTour);
 
+//get infor tour guide
+Router.get('/user/guider/tour-guide', middleware.checkLogin, UserContorller.findTourforSelf);
+
 
 //Admin
 
