@@ -113,3 +113,9 @@ http://localhost:8000/api/admin/admin-controller/get-data-user/detail-current-us
 -- API xem thông tin tour được dẫn dành cho guide đã đăng nhập
         get: http://localhost:8000/api/user/guider/tour-guide
         đính kèm token được trả về sau khi đăng nhập
+
+-- API phân quyền:
+        admin cần phải đằng nhập, đính kèm token trên headers, authorization
+        Put: 
+        http://localhost:8000/api/admin/admin-controller/account/update-role
+        các trường gửi lên: id_account, role_update

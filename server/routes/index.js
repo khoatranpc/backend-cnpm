@@ -77,6 +77,7 @@ Router.get('/admin/admin-controller/get-data-user', middleware.checkLogin, Admin
 //get infro tour guide form admin
 Router.get('/admin/admin-controller/tour-guide/:id_guide', middleware.checkLogin, AdminController.findTourGuideforAdmin);
 
-
+//phân quyền dành cho admin
+Router.put('/admin/admin-controller/account/update-role', middleware.checkLogin, AdminController.deRoleAccountForAdmin);
 
 module.exports = Router;

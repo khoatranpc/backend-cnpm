@@ -1,5 +1,5 @@
 const {
-    accountModel, userModel, bankModel, otpAccountUserModel,detailGuideTourModel, billModel, tourModel, detailBookTourModel
+    accountModel, userModel, bankModel, otpAccountUserModel, detailGuideTourModel, billModel, tourModel, detailBookTourModel
 } = require('../../models');
 
 const AdminController = {
@@ -111,6 +111,27 @@ const AdminController = {
                 message: error.message
             })
         }
+    },
+    // phân quyền tài khoản dành cho admin
+    deRoleAccountForAdmin: async (req, res) => {
+        try {
+            if (!req.user) throw new Error("Invalid user! controller tour");
+            const { id_user, role_user } = req.user;
+            const { id_account, role_update } = req.body;
+            if (role_user !== "admin") throw new Error("You are forbidden!");
+            const findAccount = await accountModel.findById(id_account);
+            if (!findAccount) throw new Error("Not found account!");
+            const newRole = await findAccount.updateOne({ role: role_update }, { new: true });
+            res.status(200).send({
+                message: "Update role Successful!",
+                data: newRole
+            })
+        } catch (error) {
+            res.status(500).send({
+                message: error.message
+            })
+        }
+
     }
 }
 module.exports = AdminController
