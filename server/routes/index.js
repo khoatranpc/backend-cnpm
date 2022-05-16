@@ -74,6 +74,9 @@ Router.post('/admin/admin-controller/get-data-user/detail-current-user/:id', mid
 //get information user with pagination
 Router.get('/admin/admin-controller/get-data-user', middleware.checkLogin, AdminController.getDataUser);
 
+//get infro tour guide form admin
+Router.get('/admin/admin-controller/tour-guide/:id_guide', middleware.checkLogin, AdminController.findTourGuideforAdmin);
+
 
 
 module.exports = Router;

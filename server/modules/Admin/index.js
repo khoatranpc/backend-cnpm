@@ -1,5 +1,5 @@
 const {
-    accountModel, userModel, bankModel, otpAccountUserModel, billModel, tourModel, detailBookTourModel
+    accountModel, userModel, bankModel, otpAccountUserModel,detailGuideTourModel, billModel, tourModel, detailBookTourModel
 } = require('../../models');
 
 const AdminController = {
@@ -88,6 +88,26 @@ const AdminController = {
         } catch (error) {
             res.status(404).send({
                 status: "Update failed!",
+                message: error.message
+            })
+        }
+    },
+    // lấy thông tin tour được dẫn cho người dẫn tour
+    findTourGuideforAdmin: async (req, res) => {
+        try {
+            if (!req.user) throw new Error("Invalid user! controller tour");
+            const { id_user, role_user } = req.user;
+            const { id_guide } = req.params;
+            if (role_user !== "admin") throw new Error("You are forbidden!");
+            const guide = await userModel.findById(id_guide);
+            if (!guide) throw new Error("Unknown Guider!");
+            const findGuideTour = await detailGuideTourModel.findOne({ id_user: guide.id }).populate("id_detail_tour");
+            res.status(200).send({
+                message: "Found!",
+                data: findGuideTour
+            })
+        } catch (error) {
+            res.status(500).send({
                 message: error.message
             })
         }
