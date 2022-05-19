@@ -112,6 +112,26 @@ const AdminController = {
             })
         }
     },
+    // get account
+    getAllAccountByOption: async (req, res) => {
+        try {
+            if (!req.user) throw new Error("Invalid user! controller tour");
+            const { id_user, role_user } = req.user;
+            const { role_account } = req.params;
+            if (role_user !== "admin") throw new Error("You are forbidden!");
+            const allAccount = await accountModel.find({ role: role_account });
+            res.status(200).send({
+                message: "Get successfull!",
+                data: allAccount
+            })
+        } catch (error) {
+            res.status(500).send({
+                message: error.message
+            })
+        }
+
+
+    },
     // phân quyền tài khoản dành cho admin
     deRoleAccountForAdmin: async (req, res) => {
         try {
@@ -131,7 +151,6 @@ const AdminController = {
                 message: error.message
             })
         }
-
     }
 }
 module.exports = AdminController

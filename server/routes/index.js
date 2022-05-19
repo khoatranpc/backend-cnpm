@@ -80,4 +80,6 @@ Router.get('/admin/admin-controller/tour-guide/:id_guide', middleware.checkLogin
 //phân quyền dành cho admin
 Router.put('/admin/admin-controller/account/update-role', middleware.checkLogin, AdminController.deRoleAccountForAdmin);
 
+//get all account by option role
+Router.get('/admin/admin-controller/account/get-all/:role_account', middleware.checkLogin, AdminController.getAllAccountByOption);
 module.exports = Router;

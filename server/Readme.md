@@ -119,3 +119,8 @@ http://localhost:8000/api/admin/admin-controller/get-data-user/detail-current-us
         Put: 
         http://localhost:8000/api/admin/admin-controller/account/update-role
         các trường gửi lên: id_account, role_update
+-- API lấy danh sách tài khoản theo option
+        đính kèm header authorization
+        có 3 quyền có thể lấy được: admin, user, guide
+        get: http://localhost:8000/api/admin/admin-controller/account/get-all/ role cần lấy
+        ví dụ: http://localhost:8000/api/admin/admin-controller/account/get-all/guide
