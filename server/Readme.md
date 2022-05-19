@@ -124,3 +124,15 @@ http://localhost:8000/api/admin/admin-controller/get-data-user/detail-current-us
         có 3 quyền có thể lấy được: admin, user, guide
         get: http://localhost:8000/api/admin/admin-controller/account/get-all/ role cần lấy
         ví dụ: http://localhost:8000/api/admin/admin-controller/account/get-all/guide
+
+-- API update detail tour
+        đính kèm headers authorization, truyền id_tour
+        các trường có thể chỉnh sửa: 
+        "reviews_tour"
+        "date_begin_tour"
+        "date_end_tour"
+        "comments"
+        
+        put: /admin/admin-controller/tour/:id_tour/update
+        ví dụ: 
+        http://localhost:8000/api/admin/admin-controller/tour-guide/62835797959efd7d1a315d9d/update

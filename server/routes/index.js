@@ -44,6 +44,9 @@ Router.put('/tour/add-Tour-Guide/:id_tour', middleware.checkLogin, TourControlle
 //api detail book tour
 Router.get('/tour/detail/:id', TourController.getDetailTour);
 
+// get detail tour and update for admin
+
+Router.put('/admin/admin-controller/tour/:id_tour/update', middleware.checkLogin, TourController.getDetailTourAndUpdate);
 
 // API dành cho khách hàng
 // get infor current user
@@ -76,6 +79,8 @@ Router.get('/admin/admin-controller/get-data-user', middleware.checkLogin, Admin
 
 //get infro tour guide form admin
 Router.get('/admin/admin-controller/tour-guide/:id_guide', middleware.checkLogin, AdminController.findTourGuideforAdmin);
+
+
 
 //phân quyền dành cho admin
 Router.put('/admin/admin-controller/account/update-role', middleware.checkLogin, AdminController.deRoleAccountForAdmin);

@@ -158,11 +158,33 @@ const Tour = {
                 tourUpdateStatus = await tourModel.findByIdAndUpdate(id, { status: "Finished" }, { new: true })
             }
             res.status(200).send({
-                tour: tour,
-
+                tour: tour
             })
         } catch (error) {
             res.status(404).send({
+                message: error.message
+            })
+        }
+    },
+    // for admn
+    getDetailTourAndUpdate: async (req, res) => {
+        try {
+            if (!req.user) throw new Error("Invalid User")
+            const { id_user, role_user } = req.user;
+            const { id_tour } = req.params;
+            console.log(req.user);
+            //check existedUser
+            const existedUser = await userModel.findOne({ id_account: id_user });
+
+            if (!existedUser) throw new Error('You must login first!');
+            if (role_user !== "admin") throw new Error('You have no right to add tour guide!');
+            const detailTour = await detailBookTourModel.findOneAndUpdate({ id_tour: id_tour }, req.body);
+            res.status(200).send({
+                message:"Update successfull!",
+                data: detailTour
+            })
+        } catch (error) {
+            res.status(500).send({
                 message: error.message
             })
         }
