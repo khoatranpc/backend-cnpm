@@ -178,9 +178,9 @@ const Tour = {
 
             if (!existedUser) throw new Error('You must login first!');
             if (role_user !== "admin") throw new Error('You have no right to add tour guide!');
-            const detailTour = await detailBookTourModel.findOneAndUpdate({ id_tour: id_tour }, req.body,{new:true});
+            const detailTour = await detailBookTourModel.findOneAndUpdate({ id_tour: id_tour }, req.body, { new: true });
             res.status(200).send({
-                message:"Update successfull!",
+                message: "Update successfull!",
                 data: detailTour
             })
         } catch (error) {
