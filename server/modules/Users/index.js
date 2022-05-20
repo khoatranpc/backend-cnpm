@@ -188,6 +188,35 @@ const CostumerController = {
                 message: error.message
             })
         }
+    },
+    // hủy tour khi đã thanh toán và hoàn lại 30% tiền
+    cancelBillBookTour: async (req, res) => {
+        try {
+            if (!req.user) throw new Error("Invalid user! controller tour");
+            const { id_user, role_user } = req.user;
+            const { id_bill } = req.params;
+            if (role_user !== "user") throw new Error("You are forbidden!");
+            //get bill
+            const bill = await billModel.findById(id_bill).populate("id_tour");
+            // if (bill.id_tour.status == "Ending") throw new Error("Can not cancel Tour");
+            if (bill.status != "Compelete") throw new Error("Can not cancel Tour!");
+            const d = new Date();
+            const detailTour = await detailBookTourModel.findOne({ id_tour: bill.id_tour.id });
+            if (detailTour.date_begin_tour < d) throw new Error("Cannot cancel bill because out of date!!");
+            const cancelBill = await bill.updateOne({ status: "Cancel" });
+            //hoàn tiền
+            const returnMoneyBank = await bankModel.findOne({ id_user: bill.id_user });
+            await returnMoneyBank.updateOne({ currentMoney: (returnMoneyBank.currentMoney + (bill.money * 0.3)) }, { new: true });
+            res.status(200).send({
+                message: "Get bill successful!",
+                data: cancelBill,
+                money: bill.money * 0.3
+            })
+        } catch (error) {
+            res.status(500).send({
+                message: error.message
+            })
+        }
     }
 
 

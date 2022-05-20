@@ -137,3 +137,7 @@ http://localhost:8000/api/admin/admin-controller/get-data-user/detail-current-us
         put: /admin/admin-controller/tour/:id_tour/update
         ví dụ: 
         http://localhost:8000/api/admin/admin-controller/tour/62835797959efd7d1a315d9d/update
+
+-- API hủy tour, hủy bill
+        đính kèm headers authorization,
+        put: http://localhost:8000/api/user/current-user/get-bill/:id_bill
