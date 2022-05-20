@@ -20,7 +20,7 @@
                                         
                                         
 -- API thêm 1 tour dành cho role = admin: post: http://localhost:8000/api/tour/add-tour
-                + gửi lên các trường: tourname, place, price
+                + gửi lên các trường: tourname, place, price, mặc định status sẽ là pending
                 + đính kèm header authoriztion là mã token được trả về khi đăng nhập
                 
                 

@@ -163,7 +163,7 @@ const tourSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: "Activing"
+        default: "Pending"
     },
     id_detail_Tour: {
         type: mongoose.Schema.Types.ObjectId,
