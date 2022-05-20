@@ -138,9 +138,15 @@ const Tour = {
             if (role_user !== "admin") throw new Error('You have no right to delete tour!');
             //xóa tour với id tương ứng
 
-            await tourModel.findByIdAndDelete(id)
+            const checkStatus = await tourModel.findById(id);
+            if(!checkStatus) throw new Error('Not found this tour!');
+            if(checkStatus.status !== "Pending"){
+                throw new Error('Can not delete this tour!');
+            }
+            await checkStatus.remove();
             res.status(201).send({
                 message: "Delete tour successful",
+                data: checkStatus
             })
         } catch (error) {
             res.status(403).send({
