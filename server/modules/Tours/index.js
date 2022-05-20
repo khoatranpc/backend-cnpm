@@ -139,8 +139,8 @@ const Tour = {
             //xóa tour với id tương ứng
 
             const checkStatus = await tourModel.findById(id);
-            if(!checkStatus) throw new Error('Not found this tour!');
-            if(checkStatus.status !== "Pending"){
+            if (!checkStatus) throw new Error('Not found this tour!');
+            if (checkStatus.status !== "Pending") {
                 throw new Error('Can not delete this tour!');
             }
             await checkStatus.remove();
@@ -228,9 +228,10 @@ const Tour = {
                 const added = await addGuideTour.save();
                 const addTour = await detailGuideTourModel.findById(added.id);
                 console.log("Đây là addTour", addTour);
-                const update = await addTour.updateOne({ $push: { id_detail_tour: id_tour } });
+                const update = await addTour.updateOne({ $push: { id_detail_tour: id_tour } }, { new: true });
                 res.status(200).send({
-                    message: "Thêm thành công"
+                    message: "Thêm thành công",
+                    data: update
                 })
             } else {
                 const findDetailTour = await detailBookTourModel.findOne({ id_tour: id_tour });
