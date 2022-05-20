@@ -140,4 +140,5 @@ http://localhost:8000/api/admin/admin-controller/get-data-user/detail-current-us
 
 -- API hủy tour, hủy bill
         đính kèm headers authorization,
+        chỉ dược hủy khi trạng thái bill là Compelete, trước ngày bắt đầu của tour, hoàn 30% tiền
         put: http://localhost:8000/api/user/current-user/get-bill/:id_bill
