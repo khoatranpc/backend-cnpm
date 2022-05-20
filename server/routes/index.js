@@ -64,6 +64,9 @@ Router.post('/user/current-user/booktour/:id_tour/:quantity_user', middleware.ch
 //get infor tour guide
 Router.get('/user/guider/tour-guide', middleware.checkLogin, UserContorller.findTourforSelf);
 
+//get infor tour for custome
+
+Router.get('/user/current-user/get-tour-booked', middleware.checkLogin, UserContorller.getTourBooked);
 
 //Admin
 

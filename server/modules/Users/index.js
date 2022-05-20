@@ -134,9 +134,9 @@ const CostumerController = {
             const createBill = await billModel.create(billPay);
             const updateCurrentCostumerForTour = await tourModel.findByIdAndUpdate(detailTour.id_tour, {
                 // nếu số lượng lớn hơn 1, thì sẽ trả về, còn nếu không thì sẽ mặc định là 1
-                $inc: { currenCustomer: quantityUser }
+                $inc: { currentCustomer: quantityUser }
             }, { new: true });
-
+            console.log(updateCurrentCostumerForTour);
             console.log("-----");
             res.status(200).send({
                 message: "Pay bill successfull!",
@@ -170,7 +170,27 @@ const CostumerController = {
                 message: error.message
             })
         }
+    },
+    // xem thông tin bill đặt tour (các tour đã đặt) dành cho khách hàng
+    getTourBooked: async (req, res) => {
+        try {
+            if (!req.user) throw new Error("Invalid user! controller tour");
+            const { id_user, role_user } = req.user;
+            if (role_user !== "user") throw new Error("You are forbidden!");
+            const getIdUser = await userModel.findOne({ id_account: id_user });
+            const dataBill = await billModel.find({ id_user: getIdUser.id });
+            res.status(200).send({
+                message: "Get data bill",
+                bill: dataBill
+            })
+        } catch (error) {
+            res.status(500).send({
+                message: error.message
+            })
+        }
     }
+
+
 
 }
 module.exports = CostumerController;
