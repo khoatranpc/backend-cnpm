@@ -66,8 +66,9 @@
         http://localhost:8000/api/user/current-user/booktour/6270afc965ba1bb975bcdf2c/5
 
 ------admin-----
--- API lấy thông danh sách user với phân trang: gửi lên headers authorization
-        +get: http://localhost:8000/api/admin/admin-controller/get-data-user?page=1
+-- API lấy thông danh sách user với quyền tùy chọn, phân trang: gửi lên headers         authorization
+        ví dụ:
+        +get: http://localhost:8000/api/admin/admin-controller/get-data-user?page=1&role=user
 
 -- API lấy thông tin chi tiết user: truyền params là id
         +get :

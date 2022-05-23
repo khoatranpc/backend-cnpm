@@ -10,7 +10,7 @@ const middleware = {
                 const parseToken = await providerJWT.verifyToken(token);
                 // dang fix chưa xong
                 // nếu không thể verify được, thì kết quả sẽ là undefined
-                if(typeof parseToken == 'undefined') throw new Error("Invalid user!")
+                if (typeof parseToken == 'undefined') throw new Error("Invalid user waht!")
                 console.log(parseToken);
                 // if (typeof parseToken == 'undefined') throw new Error("Invalid user!")
                 req.user = parseToken;
@@ -18,11 +18,11 @@ const middleware = {
                 next();
 
             } else {
-                throw new Error("Invalid user!")
+                throw new Error("Invalid user đây à!")
             }
         } catch (error) {
             res.status(401).send({
-                error: "Invalid user!"
+                error: error.message
             });
         }
 

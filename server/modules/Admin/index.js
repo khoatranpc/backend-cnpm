@@ -7,14 +7,21 @@ const AdminController = {
         //check role
         try {
             const { id_user, role_user } = req.user;
-            const { page } = req.query;
+
+            const { page, role } = req.query;
+
             if (!id_user || !role_user) throw new Error("You must to be login first!");
             if (role_user !== "admin") throw new Error("You are forbidden!");
-            const allUserAndPagination = await userModel.find().limit(10).skip((page - 1) * 10);
-            if (!allUserAndPagination) throw new Error("Have not user yet!");
+            
+            const joinAccInfo = await accountModel.find({ role: role }).populate('id_user')
+                .limit(10).skip((page - 1) * 10);
+
+
+            // const allUserAndPagination = await userModel.find().limit(10).skip((page - 1) * 10);
+            if (!joinAccInfo) throw new Error("Have not user yet!");
             res.status(200).send({
-                total: allUserAndPagination.length,
-                data: allUserAndPagination
+                total: joinAccInfo.length,
+                data: joinAccInfo
             })
         } catch (error) {
             res.status(500).send({
