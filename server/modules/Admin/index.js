@@ -12,7 +12,7 @@ const AdminController = {
 
             if (!id_user || !role_user) throw new Error("You must to be login first!");
             if (role_user !== "admin") throw new Error("You are forbidden!");
-            
+
             const joinAccInfo = await accountModel.find({ role: role }).populate('id_user')
                 .limit(10).skip((page - 1) * 10);
 
@@ -138,6 +138,23 @@ const AdminController = {
         }
 
 
+    },
+    // lấy danh sách tour dành cho admin
+    getAllTourForAdmin: async (req, res) => {
+        try {
+            const { page } = req.query;
+            //pagination
+            const allTour = await tourModel.find().limit(6).skip((page - 1) * 6);
+            if (!allTour) throw new Error("Sorry, we have not any tour yet!");
+            res.status(200).send({
+                total: allTour.length,
+                data: allTour
+            })
+        } catch (error) {
+            res.status(404).send({
+                message: error.message
+            })
+        }
     },
     // phân quyền tài khoản dành cho admin
     deRoleAccountForAdmin: async (req, res) => {
