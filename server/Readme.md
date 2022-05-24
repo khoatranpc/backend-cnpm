@@ -147,3 +147,9 @@ http://localhost:8000/api/admin/admin-controller/get-data-user/detail-current-us
 -- API lấy danh sách tour dành cho admin
         get: http://localhost:8000/api/admin/admin-controller/get-all-tour
         có thể truyền params page để phân trang
+
+-- API lấy thông tin guide cho tour
+        đính kèm headers authorization, quyền admin
+
+        get: http://localhost:8000/api/admin/admin-controller/get-guide-tour/:id_tour
+        ví dụ: http://localhost:8000/api/admin/admin-controller/get-guide-tour/628358f8959efd7d1a315dad

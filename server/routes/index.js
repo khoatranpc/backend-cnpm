@@ -93,6 +93,10 @@ Router.get('/admin/admin-controller/get-all-tour', AdminController.getAllTourFor
 //phân quyền dành cho admin
 Router.put('/admin/admin-controller/account/update-role', middleware.checkLogin, AdminController.deRoleAccountForAdmin);
 
+//lấy user cho việc xem tour
+Router.get('/admin/admin-controller/get-guide-tour/:id_tour', middleware.checkLogin, TourController.getTourOfGuide);
+
+
 //get all account by option role
 Router.get('/admin/admin-controller/account/get-all/:role_account', middleware.checkLogin, AdminController.getAllAccountByOption);
 module.exports = Router;

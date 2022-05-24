@@ -260,6 +260,29 @@ const Tour = {
                 message: error.message
             })
         }
+    },
+    // lấy thông tin người dẫn tour có id tour trùng với id tour cần xem
+    getTourOfGuide: async (req, res) => {
+        try {
+            if (!req.user) throw new Error("Invalid User")
+            const { id_user, role_user } = req.user;
+            const { id_tour } = req.params;
+            console.log(req.user);
+            //check existedUser
+            const existedUser = await userModel.findOne({ id_account: id_user });
+
+            if (!existedUser) throw new Error('You must login first!');
+            if (role_user !== "admin") throw new Error('You have no right to add tour guide!');
+            // get user
+            const user = await detailGuideTourModel.findOne({ id_detail_tour: id_tour }).populate("id_user");
+            res.status(200).send({
+                data: user
+            })
+        } catch (error) {
+            res.status(500).send({
+                message: error.message
+            })
+        }
     }
 
 }
