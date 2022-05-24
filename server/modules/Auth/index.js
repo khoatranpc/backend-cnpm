@@ -67,6 +67,10 @@ const Auth = {
             // tim kiem tai khoan trung
             const existedAccount = await accountModel.findOne({ username: username });
             if (existedAccount) throw new Error('Username existed. Try another!');
+
+            // tìm email trùng
+            const emailExisted = await userModel.findOne({ email: email });
+            if(emailExisted)  throw new Error('Email existed. Try another!');
             //ma hoa mat khau
             const hashedPassword = await encryptPassword.hashPassword(password);
             const accountPass = {
