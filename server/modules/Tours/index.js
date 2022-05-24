@@ -162,7 +162,7 @@ const Tour = {
             const d = new Date();
             let tourUpdateStatus;
             if (tour.id_detail_Tour.date_end_tour < d) {
-                tourUpdateStatus = await tourModel.findByIdAndUpdate(id, { status: "Finished" }, { new: true })
+                tourUpdateStatus = await tourModel.findByIdAndUpdate(id, { status: "Ending" }, { new: true })
             }
             res.status(200).send({
                 tour: tour
