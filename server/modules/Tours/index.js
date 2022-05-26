@@ -248,9 +248,7 @@ const Tour = {
                         return false;
                     }
                 })
-                if (bolen == false) {
-                    throw new Error('Người dẫn tour bị trùng lịch!');
-                }
+                console.log(bolen);
             }
         } catch (error) {
             res.status(500).send({
