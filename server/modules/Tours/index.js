@@ -236,8 +236,8 @@ const Tour = {
             }
             if (detailGuideTour) {
                 const findDetailTour = await detailBookTourModel.findOne({ id_tour: id_tour });
-                try {
-                    detailGuideTour.id_detail_tour.map(async (item, index) => {
+                detailGuideTour.id_detail_tour.map(async (item, index) => {
+                    try {
                         const detail = await detailBookTourModel.findById(item.id_detail_Tour);
                         console.log(detail);
                         // cần test thêm
@@ -251,13 +251,12 @@ const Tour = {
                         } else {
                             throw new Error("Không thêm được! Do người dẫn tour trùng lịch");
                         }
-                    })
-                } catch (error) {
-                    res.status(500).send({
-                        message: error.message
-                    })
-                }
-
+                    } catch (error) {
+                        res.status(500).send({
+                            message: error.message
+                        })
+                    }
+                })
             }
         } catch (error) {
             res.status(500).send({
