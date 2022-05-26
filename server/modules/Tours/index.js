@@ -248,8 +248,7 @@ const Tour = {
                 }
                 if (tempt == true) {
                     res.status(200).send({
-                        message: "Thêm thành công",
-                        data: update
+                        message: "Thêm thành công"
                     })
                 }
                 else{
