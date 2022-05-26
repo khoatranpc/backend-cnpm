@@ -233,31 +233,25 @@ const Tour = {
                     message: "Thêm thành công",
                     data: update
                 })
-            } else {
+            }
+            if (detailGuideTour) {
                 const findDetailTour = await detailBookTourModel.findOne({ id_tour: id_tour });
                 detailGuideTour.id_detail_tour.map(async (item, index) => {
                     const detail = await detailBookTourModel.findById(item.id_detail_Tour);
                     console.log(detail);
-                    try {
-                        // cần test thêm
-                        console.log(detail.date_end_tour < findDetailTour.date_begin_tour);
-                        if (detail.date_end_tour < findDetailTour.date_begin_tour) {
-                            const addTour = await detailGuideTourModel.findOne({ id_user: id_guide });
-                            await addTour.updateOne({ $push: { id_detail_tour: id_tour } });
-                            res.status(200).send({
-                                message: "Thêm thành công"
-                            })
-                        } else {
-                            throw new Error("Không thêm được! Do người dẫn tour trùng lịch");
-                        }
-                    } catch (error) {
-                        res.status(500).send({
-                            message: error.message + "trong if"
+                    // cần test thêm
+                    console.log(detail.date_end_tour < findDetailTour.date_begin_tour);
+                    if (detail.date_end_tour < findDetailTour.date_begin_tour) {
+                        const addTour = await detailGuideTourModel.findOne({ id_user: id_guide });
+                        await addTour.updateOne({ $push: { id_detail_tour: id_tour } });
+                        res.status(200).send({
+                            message: "Thêm thành công"
                         })
+                    } else {
+                        throw new Error("Không thêm được! Do người dẫn tour trùng lịch");
                     }
                 })
             }
-
         } catch (error) {
             res.status(500).send({
                 message: error.message
