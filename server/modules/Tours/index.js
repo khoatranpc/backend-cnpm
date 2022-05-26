@@ -203,7 +203,6 @@ const Tour = {
             const { id_user, role_user } = req.user;
             const { id_tour } = req.params;
             const { id_guide } = req.body;
-            console.log(req.user);
             //check existedUser
             const existedUser = await userModel.findOne({ id_account: id_user });
 
@@ -213,7 +212,6 @@ const Tour = {
             const findTourGuide = await userModel.findById(id_guide).populate("id_account");
             if (!findTourGuide) throw new Error('Not found user!');
             if (findTourGuide.id_account.role !== "guide") throw new Error('This user cannot be added to the tour!');
-            console.log("Đây là user guide");
             // tìm tour và update trường id_user = id_guide gửi lên
             // tìm tour
             // tìm tour trong bảng người dẫn tour
@@ -227,7 +225,6 @@ const Tour = {
                 })
                 const added = await addGuideTour.save();
                 const addTour = await detailGuideTourModel.findById(added.id);
-                console.log("Đây là addTour", addTour);
                 const update = await addTour.updateOne({ $push: { id_detail_tour: id_tour } }, { new: true });
                 res.status(200).send({
                     message: "Thêm thành công",
@@ -237,7 +234,6 @@ const Tour = {
             else {
                 const findDetailTour = await detailBookTourModel.findOne({ id_tour: id_tour });
                 detailGuideTour.id_detail_tour.map(async (item, index) => {
-
                     const detail = await detailBookTourModel.findById(item.id_detail_Tour);
                     console.log(detail);
                     // cần test thêm
@@ -247,10 +243,6 @@ const Tour = {
                         await addTour.updateOne({ $push: { id_detail_tour: id_tour } });
                         res.status(200).send({
                             message: "Thêm thành công"
-                        })
-                    } else {
-                        res.status(500).send({
-                            message: "Không thêm được! Do người dẫn tour trùng lịch"
                         })
                     }
                 })
