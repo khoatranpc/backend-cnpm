@@ -101,7 +101,6 @@ const CostumerController = {
             } else {
                 quantityUser = 1
             }
-
             //tim user
             const existedUser = await userModel.findOne({ id_account: id_user });
             // lay so tien hien tai cua user
@@ -111,7 +110,7 @@ const CostumerController = {
             if (!detailTour) throw new Error("Not found Tour!")
             console.log(detailTour);
             const d = new Date();
-            if (detailTour.date_end_tour >= d) throw new Error("Tour finished!")
+            if (detailTour.date_end_tour <= d) throw new Error("Tour finished!")
             console.log("adudd");
             if (detailTour.id_tour.maxCustomer <= ((detailTour.id_tour.currenCustomer) + Number(quantityUser))) throw new Error("Tour is full!");
 
