@@ -233,7 +233,7 @@ const Tour = {
             }
             else {
                 const findDetailTour = await detailBookTourModel.findOne({ id_tour: id_tour });
-                detailGuideTour.id_detail_tour.map(async (item, index) => {
+                const bolen = detailGuideTour.id_detail_tour.map(async (item, index) => {
                     const detail = await detailBookTourModel.findById(item.id_detail_Tour);
                     console.log(detail);
                     // cần test thêm
@@ -244,8 +244,13 @@ const Tour = {
                         res.status(200).send({
                             message: "Thêm thành công"
                         })
+                    } else {
+                        return false;
                     }
                 })
+                if (bolen == false) {
+                    throw new Error('Người dẫn tour bị trùng lịch!');
+                }
             }
         } catch (error) {
             res.status(500).send({
