@@ -236,7 +236,7 @@ const Tour = {
                 let tempt = false;
                 for (let index = 0; index < detailGuideTour.id_detail_tour.length; index++) {
                     const detail = await detailBookTourModel.findById(detailGuideTour.id_detail_tour[index].id_detail_Tour);
-                    if (detail.date_end_tour < findDetailTour.date_begin_tour) {
+                    if (detail.date_end_tour <= findDetailTour.date_begin_tour) {
                         const addTour = await detailGuideTourModel.findOne({ id_user: id_guide });
                         await addTour.updateOne({ $push: { id_detail_tour: id_tour } });
                         tempt = true;
