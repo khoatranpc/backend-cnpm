@@ -234,7 +234,7 @@ const Tour = {
                     data: update
                 })
             }
-            if (detailGuideTour) {
+            else {
                 const findDetailTour = await detailBookTourModel.findOne({ id_tour: id_tour });
                 detailGuideTour.id_detail_tour.map(async (item, index) => {
                     try {
@@ -252,9 +252,7 @@ const Tour = {
                             throw new Error("Không thêm được! Do người dẫn tour trùng lịch");
                         }
                     } catch (error) {
-                        res.status(500).send({
-                            message: error.message
-                        })
+                        throw new Error("Không thêm được! Do người dẫn tour trùng lịch");
                     }
                 })
             }
