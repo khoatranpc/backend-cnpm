@@ -233,20 +233,29 @@ const Tour = {
             }
             else {
                 const findDetailTour = await detailBookTourModel.findOne({ id_tour: id_tour });
-                let couter = detailGuideTour.id_detail_tour.filter(async (item, index) => {
-                    const detail = await detailBookTourModel.findById(item.id_detail_Tour);
-                    return detail.date_end_tour < findDetailTour.date_begin_tour ? item : '';
-                })
-                if (couter.length != 0) {
-                    const addTour = await detailGuideTourModel.findOne({ id_user: id_guide });
-                    await addTour.updateOne({ $push: { id_detail_tour: id_tour } });
+                let tempt = false;
+                for (let index = 0; index < detailGuideTour.id_detail_tour.length; index++) {
+                    const detail = await detailBookTourModel.findById(detailGuideTour.id_detail_tour[index].id_detail_Tour);
+                    if (detail.date_end_tour < findDetailTour.date_begin_tour) {
+                        const addTour = await detailGuideTourModel.findOne({ id_user: id_guide });
+                        await addTour.updateOne({ $push: { id_detail_tour: id_tour } });
+                        tempt = true;
+                        break;
+                    }
+                    else {
+                        tempt = false;
+                    }
+                }
+                if (tempt == true) {
                     res.status(200).send({
-                        message: "Thêm thành công"
+                        message: "Thêm thành công",
+                        data: update
                     })
                 }
-                else {
-                    throw new Error("Không thêm được! Do người dẫn tour trùng lịch");
+                else{
+                    throw new Error("Người dẫn tour bị trùng lịch!")
                 }
+
             }
         } catch (error) {
             res.status(500).send({
