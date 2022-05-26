@@ -249,7 +249,9 @@ const Tour = {
                             throw new Error("Không thêm được! Do người dẫn tour trùng lịch");
                         }
                     } catch (error) {
-
+                        res.status(500).send({
+                            message: error.message
+                        })
                     }
                 })
             }
