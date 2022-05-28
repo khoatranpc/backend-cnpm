@@ -161,11 +161,13 @@ const Tour = {
             if (!tour) throw new Error("We can't find the tour!")
             const d = new Date();
             let tourUpdateStatus;
+            let detailTour = await detailBookTourModel.findById(tour.id_detail_Tour);
             if (tour.id_detail_Tour.date_end_tour < d) {
                 tourUpdateStatus = await tourModel.findByIdAndUpdate(id, { status: "Ending" }, { new: true })
             }
             res.status(200).send({
-                tour: tour
+                tour: tour,
+                detail: detailTour
             })
         } catch (error) {
             res.status(404).send({

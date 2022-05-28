@@ -5,6 +5,7 @@ const AuthController = require('../modules/Auth');
 const TourController = require('../modules/Tours');
 const UserContorller = require('../modules/Users');
 const AdminController = require('../modules/Admin');
+const { Route } = require('express');
 // APIs authen
 //api login
 Router.post('/auth/login', AuthController.SignIn);
@@ -70,7 +71,9 @@ Router.get('/user/current-user/get-tour-booked', middleware.checkLogin, UserCont
 //cancel Bill
 Router.put('/user/current-user/get-bill/:id_bill', middleware.checkLogin, UserContorller.cancelBillBookTour);
 
+//comment for user
 
+Router.put('/user/current-user/:id_bill/:id_detail_tour/comment', middleware.checkLogin, UserContorller.comment)
 
 //Admin
 

@@ -153,3 +153,9 @@ http://localhost:8000/api/admin/admin-controller/get-data-user/detail-current-us
 
         get: http://localhost:8000/api/admin/admin-controller/get-guide-tour/:id_tour
         ví dụ: http://localhost:8000/api/admin/admin-controller/get-guide-tour/628358f8959efd7d1a315dad
+
+-- API comments:
+        đính kèm authorization
+        truyền id_bill, id_detail_tour, gửi body comment
+        chỉ được phép comment khi tour đã kết thúc và đã trạng thái thanh toán bill Compelete
+        put: http://localhost:8000/api/user/current-user/:id_bill/:id_detail_tour/comment

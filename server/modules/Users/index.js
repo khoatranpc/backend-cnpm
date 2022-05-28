@@ -1,4 +1,9 @@
-const { userModel, bankModel, accountModel, detailGuideTourModel, detailBookTourModel, billModel, tourModel } = require('../../models');
+const { response } = require('express');
+const {
+    userModel, bankModel,
+    accountModel, detailGuideTourModel,
+    userCommentTourModel, detailBookTourModel,
+    billModel, tourModel } = require('../../models');
 const CostumerController = {
     // lấy xông tin cá nhân
     getDataInfor: async (req, res) => {
@@ -137,6 +142,14 @@ const CostumerController = {
             }, { new: true });
             console.log(updateCurrentCostumerForTour);
             console.log("-----");
+
+            // thêm db comments tour
+            const dbUserComment = {
+                id_detail_tour: detailTour.id,
+                id_user: existedUser.id
+            }
+            const createDbComment = await userCommentTourModel.create(dbUserComment);
+
             res.status(200).send({
                 message: "Pay bill successfull!",
                 bill: createBill,
@@ -216,9 +229,47 @@ const CostumerController = {
                 message: error.message
             })
         }
+    },
+    // comment for user pay bill successful!
+    comment: async (req, res) => {
+        try {
+            if (!req.user) throw new Error("Invalid user! controller tour");
+            const { id_user, role_user } = req.user;
+            const { id_bill, id_detail_tour } = req.params;
+
+            const { comments } = req.body;
+            if (role_user !== "user") throw new Error("You are forbidden!");
+
+            // get id user information
+            const id_user_infor = await userModel.findOne({ id_account: id_user });
+            const checkBill = await billModel.findById(id_bill);
+
+            // find detail tour
+            const detailTour = await detailBookTourModel.findById(id_detail_tour)
+                .populate("id_tour");
+
+            if (!detailTour) throw new Error("Not found this tour!");
+            if (!checkBill) throw new Error("Bill does not exist!");
+            if (checkBill.status != "Compelete")
+                throw new Error("Cannot comment when cancelled!");
+            if (detailTour.id_tour.status != "Ending")
+                throw new Error("Cannot comment when tour is not finish!");
+            // update comment
+            const dbComment = await userCommentTourModel.findOne({ id_user: id_user_infor.id });
+            await dbComment.updateOne({ comments: comments }, { new: true });
+            // update comment in detail tour
+            await detailTour.updateOne({ comments: { $push: { comments: dbComment.id } } }, { new: true });
+            res.status(200).send({
+                message: 'Comment successful!',
+            })
+        } catch (error) {
+            res.status(500).send({
+                message: error.message
+            })
+        }
+
+
     }
-
-
 
 }
 module.exports = CostumerController;
